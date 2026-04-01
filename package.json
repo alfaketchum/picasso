@@ -26,11 +26,12 @@
     "url": "https://github.com/viperrcrypto/picasso.git"
   },
   "homepage": "https://github.com/viperrcrypto/picasso",
+  "engines": {
+    "node": ">=16.7.0"
+  },
   "files": [
     "bin/",
     "skills/",
-    "SKILL.md",
-    "references/",
     "LICENSE"
   ]
 }
