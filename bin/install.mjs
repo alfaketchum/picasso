@@ -1,43 +1,56 @@
 #!/usr/bin/env node
 
-import { existsSync, mkdirSync, cpSync, readdirSync } from "fs";
+import { existsSync, mkdirSync, cpSync, readdirSync, readFileSync } from "fs";
 import { resolve, join, dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const packageRoot = resolve(__dirname, "..");
 const skillSource = join(packageRoot, "skills", "picasso");
+const agentSource = join(packageRoot, "agents", "picasso.md");
 
 const args = process.argv.slice(2);
 const command = args[0] || "install";
 
 if (command === "help" || command === "--help" || command === "-h") {
   console.log(`
-  picasso-skill - The ultimate AI design skill
+  picasso-skill - The ultimate AI design skill + agent
 
   Usage:
-    npx picasso-skill              Install to current project (.claude/skills/)
-    npx picasso-skill --global     Install globally (~/.claude/skills/)
-    npx picasso-skill --cursor     Install for Cursor (.cursor/skills/)
-    npx picasso-skill --codex      Install for Codex (~/.codex/skills/)
+    npx picasso-skill              Install skill + agent to current project
+    npx picasso-skill --global     Install globally (~/.claude/)
+    npx picasso-skill --skill-only Install skill only (no agent)
+    npx picasso-skill --cursor     Install skill for Cursor
+    npx picasso-skill --codex      Install skill for Codex
     npx picasso-skill --agents     Install to .agents/skills/
     npx picasso-skill --path DIR   Install to a custom directory
+
+  What gets installed:
+    .claude/skills/picasso/        Skill (knowledge base: 13 reference files)
+    .claude/agents/picasso.md      Agent (autonomous design auditor)
   `);
   process.exit(0);
 }
 
-let targetDir;
+const isGlobal = args.includes("--global") || args.includes("-g");
+const skillOnly = args.includes("--skill-only");
+const home = process.env.HOME || process.env.USERPROFILE;
 
-if (args.includes("--global") || args.includes("-g")) {
-  const home = process.env.HOME || process.env.USERPROFILE;
-  targetDir = join(home, ".claude", "skills", "picasso");
+let skillDir;
+let agentDir;
+
+if (isGlobal) {
+  skillDir = join(home, ".claude", "skills", "picasso");
+  agentDir = join(home, ".claude", "agents");
 } else if (args.includes("--cursor")) {
-  targetDir = join(process.cwd(), ".cursor", "skills", "picasso");
+  skillDir = join(process.cwd(), ".cursor", "skills", "picasso");
+  agentDir = null; // Cursor doesn't support agents
 } else if (args.includes("--codex")) {
-  const home = process.env.HOME || process.env.USERPROFILE;
-  targetDir = join(home, ".codex", "skills", "picasso");
+  skillDir = join(home, ".codex", "skills", "picasso");
+  agentDir = null;
 } else if (args.includes("--agents")) {
-  targetDir = join(process.cwd(), ".agents", "skills", "picasso");
+  skillDir = join(process.cwd(), ".agents", "skills", "picasso");
+  agentDir = null;
 } else if (args.includes("--path")) {
   const pathIdx = args.indexOf("--path");
   const customPath = args[pathIdx + 1];
@@ -45,36 +58,53 @@ if (args.includes("--global") || args.includes("-g")) {
     console.error("Error: --path requires a directory argument");
     process.exit(1);
   }
-  targetDir = resolve(customPath, "picasso");
+  skillDir = resolve(customPath, "picasso");
+  agentDir = null;
 } else {
   // Default: project-level Claude Code
-  targetDir = join(process.cwd(), ".claude", "skills", "picasso");
+  skillDir = join(process.cwd(), ".claude", "skills", "picasso");
+  agentDir = join(process.cwd(), ".claude", "agents");
 }
 
-console.log(`\n  Installing Picasso skill to: ${targetDir}\n`);
+if (skillOnly) agentDir = null;
+
+console.log(`\n  Installing Picasso to: ${skillDir}\n`);
 
 try {
-  mkdirSync(targetDir, { recursive: true });
-  mkdirSync(join(targetDir, "references"), { recursive: true });
+  // Install skill
+  mkdirSync(skillDir, { recursive: true });
+  mkdirSync(join(skillDir, "references"), { recursive: true });
 
-  // Copy SKILL.md
-  cpSync(join(skillSource, "SKILL.md"), join(targetDir, "SKILL.md"));
+  cpSync(join(skillSource, "SKILL.md"), join(skillDir, "SKILL.md"));
 
-  // Copy all reference files
   const refs = readdirSync(join(skillSource, "references"));
   for (const ref of refs) {
     cpSync(
       join(skillSource, "references", ref),
-      join(targetDir, "references", ref)
+      join(skillDir, "references", ref)
     );
   }
 
-  console.log(`  Done! Installed ${1 + refs.length} files:`);
+  console.log(`  Skill installed (${1 + refs.length} files):`);
   console.log(`    SKILL.md`);
   for (const ref of refs) {
     console.log(`    references/${ref}`);
   }
+
+  // Install agent
+  if (agentDir && existsSync(agentSource)) {
+    mkdirSync(agentDir, { recursive: true });
+    cpSync(agentSource, join(agentDir, "picasso.md"));
+    console.log(`\n  Agent installed:`);
+    console.log(`    ${join(agentDir, "picasso.md")}`);
+  }
+
   console.log(`\n  Picasso is ready. Start designing.\n`);
+
+  if (agentDir) {
+    console.log(`  The Picasso agent will automatically audit your frontend code.`);
+    console.log(`  You can also invoke it manually with /audit, /critique, or /polish.\n`);
+  }
 } catch (err) {
   console.error(`  Error installing: ${err.message}`);
   process.exit(1);
