@@ -24,7 +24,28 @@ When the user says "make it premium" or "luxury feel," drop VISUAL_DENSITY to 2-
 
 ---
 
-## Step 0: Read the Right References
+## Step 0: The Design Interview
+
+Before writing any code or making any design decisions, understand what the user wants. If no `.picasso.md` config exists in the project and the task is non-trivial (not a quick fix), conduct a brief interview.
+
+**Ask these questions conversationally (not as a form):**
+
+1. **What are we doing?** New build, redesign, polish, or targeted fix?
+2. **Who is this for?** The audience determines the aesthetic.
+3. **What's the vibe?** Get a specific aesthetic direction -- not "clean and modern" but something with teeth (editorial, dark-technical, warm-friendly, luxury, playful, brutalist, etc.). Ask for inspiration URLs.
+4. **What matters most?** Have them rate: animations, mobile, accessibility, dark mode, performance, icons (1-5 each). This sets DESIGN_VARIANCE, MOTION_INTENSITY, and VISUAL_DENSITY.
+5. **Any constraints?** Existing design system, brand colors, fonts, framework requirements.
+
+**After the interview:**
+- Summarize back to confirm understanding
+- Generate `.picasso.md` with their preferences
+- Announce the plan and wait for confirmation before starting
+
+**Skip the interview when:** the user gives a specific command (`/audit`, `/polish`), says "just do it", or `.picasso.md` already exists.
+
+---
+
+## Step 0.5: Read the Right References
 
 Before writing any code, read the reference files relevant to the task. Each covers a domain in depth with rules, examples, and anti-patterns. Load only what you need.
 
