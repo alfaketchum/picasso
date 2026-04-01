@@ -1,4 +1,5 @@
 <p align="center">
+  <img src="logo.png" alt="Picasso" width="200" /><br/><br/>
   <strong>PICASSO</strong><br/>
   The most comprehensive AI design skill ever built.
 </p>
