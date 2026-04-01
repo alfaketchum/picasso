@@ -33,6 +33,7 @@
     "bin/",
     "skills/",
     "agents/",
+    "commands/",
     "LICENSE"
   ]
 }

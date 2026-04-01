@@ -8,6 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const packageRoot = resolve(__dirname, "..");
 const skillSource = join(packageRoot, "skills", "picasso");
 const agentSource = join(packageRoot, "agents", "picasso.md");
+const commandsSource = join(packageRoot, "commands");
 
 const args = process.argv.slice(2);
 const command = args[0] || "install";
@@ -99,11 +100,24 @@ try {
     console.log(`    ${join(agentDir, "picasso.md")}`);
   }
 
+  // Install commands
+  const commandsDir = agentDir ? join(agentDir, "..", "commands") : null;
+  if (commandsDir && existsSync(commandsSource)) {
+    mkdirSync(commandsDir, { recursive: true });
+    const cmds = readdirSync(commandsSource).filter(f => f.endsWith(".md"));
+    for (const cmd of cmds) {
+      cpSync(join(commandsSource, cmd), join(commandsDir, cmd));
+    }
+    console.log(`\n  Commands installed (${cmds.length}):`);
+    for (const cmd of cmds) {
+      console.log(`    /${cmd.replace(".md", "")}`);
+    }
+  }
+
   console.log(`\n  Picasso is ready. Start designing.\n`);
 
   if (agentDir) {
-    console.log(`  The Picasso agent will automatically audit your frontend code.`);
-    console.log(`  You can also invoke it manually with /audit, /critique, or /polish.\n`);
+    console.log(`  Try: /godmode, /roast, /score, /mood, /evolve, /steal, /compete\n`);
   }
 } catch (err) {
   console.error(`  Error installing: ${err.message}`);
