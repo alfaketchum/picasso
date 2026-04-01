@@ -417,6 +417,190 @@ When the user invokes these commands, execute the corresponding workflow:
 | `/lint-design` | Design token linting: find hardcoded colors, inconsistent spacing, non-standard fonts, z-index chaos, transition:all |
 | `/install-hooks` | Generate a git pre-commit hook that runs fast grep-based design checks (no server needed) |
 | `/ci-setup` | Generate a GitHub Actions workflow for PR design review: a11y, perf, screenshots, PR comment |
+| `/roast` | Brutally honest design critique with sharp, specific, funny feedback |
+| `/before-after` | Visual side-by-side comparison after changes with HTML report |
+| `/steal <url>` | Extract design DNA from any live website into .picasso.md |
+| `/mood <word>` | Generate complete design system from a single evocative word |
+| `/score` | Quantified 0-100 design quality score with category breakdown |
+| `/compete <url>` | Head-to-head design comparison against a competitor site |
+| `/evolve` | Multi-round iterative design refinement with screenshots |
+| `/mood-board` | Generate visual inspiration HTML from adjectives |
+| `/design-system-sync` | Detect and fix drift between DESIGN.md and code |
+| `/preset <name>` | Apply a curated community design preset |
+
+## Creative Commands
+
+### /roast -- Brutally Honest Design Critique
+
+The anti-polite review. Write feedback in sharp, designer-Twitter energy. Be specific, be funny, be cutting -- but always constructive. Every roast must end with "Here's how to fix it:" followed by actionable steps.
+
+Example tone: "This hero section looks like every v0 output from 2024. The purple gradient physically hurts my eyes. The three identical cards are a cry for help. And the 'Build the future of work' headline? My brother in Christ, it's 2026."
+
+Rules:
+- Never be mean about the developer, only the design
+- Every criticism must be specific (file:line or element)
+- Every roast point must include the fix
+- End with a genuine compliment about what IS working
+- Output a "Roast Score" from 🔥 (barely warm) to 🔥🔥🔥🔥🔥 (absolute inferno)
+
+### /before-after -- Visual Diff Report
+
+After any /polish or /redesign, auto-generate a comparison:
+1. Take "before" screenshots (desktop + mobile) BEFORE making changes
+2. Make the changes
+3. Take "after" screenshots
+4. Generate an HTML report at `/tmp/picasso-before-after.html` showing side-by-side comparisons with annotations
+5. List every change made with file:line references
+
+```bash
+# Before screenshots
+npx playwright screenshot http://localhost:3000 /tmp/picasso-before-desktop.png --viewport-size=1440,900
+npx playwright screenshot http://localhost:3000 /tmp/picasso-before-mobile.png --viewport-size=375,812
+
+# ... make changes ...
+
+# After screenshots
+npx playwright screenshot http://localhost:3000 /tmp/picasso-after-desktop.png --viewport-size=1440,900
+npx playwright screenshot http://localhost:3000 /tmp/picasso-after-mobile.png --viewport-size=375,812
+```
+
+### /steal <url> -- Design DNA Extraction
+
+Point at any live website and extract its design DNA:
+1. Screenshot the URL at multiple viewports
+2. Analyze the screenshot visually for: fonts, color palette, spacing rhythm, border-radius, animation style, layout structure
+3. Use bash to fetch the page and extract CSS:
+```bash
+curl -s "<url>" | grep -oP 'font-family:[^;]+' | sort -u | head -10
+curl -s "<url>" | grep -oP '#[0-9a-fA-F]{3,8}' | sort | uniq -c | sort -rn | head -15
+curl -s "<url>" | grep -oP 'border-radius:[^;]+' | sort -u
+```
+4. Generate a `.picasso.md` config that matches the extracted aesthetic
+5. Optionally generate a DESIGN.md based on the extraction
+
+### /mood <word> -- Instant Aesthetic from a Single Word
+
+Generate a complete design system from an evocative word or phrase:
+1. Parse the mood word(s): "cyberpunk", "cottage", "brutalist-banking", "warm-saas", "dark-editorial"
+2. Map to design tokens:
+   - Color palette (5-7 OKLCH values)
+   - Font pairing (display + body + mono)
+   - Border radius scale
+   - Shadow style
+   - Motion intensity
+   - Spacing density
+3. Generate a complete `.picasso.md` config
+4. Generate a `DESIGN.md` with the full token set
+5. Show a preview summary: "Mood: cyberpunk -> Neon green on near-black, JetBrains Mono headers, sharp 2px radius, high motion, dense layout"
+
+Include a mood mapping table:
+| Mood | Palette Direction | Typography | Radius | Motion |
+|---|---|---|---|---|
+| cyberpunk | neon on dark, high contrast | monospace display + geometric body | sharp (0-2px) | high, glitch effects |
+| cottage | warm earth tones, muted | serif display + rounded body | soft (12-16px) | gentle, slow fades |
+| brutalist | black/white + one accent | mono or slab | none (0px) | minimal, abrupt |
+| luxury | deep neutrals + gold/cream | thin serif display + elegant sans | subtle (4-8px) | smooth, slow |
+| editorial | high contrast, limited palette | strong serif + clean sans | minimal (2-4px) | moderate, text-focused |
+| playful | bright, saturated, varied | rounded sans + handwritten accent | large (16-24px) | bouncy, energetic |
+| corporate | conservative blue/gray | clean sans + readable body | standard (8px) | subtle, professional |
+| dark-tech | dark surfaces + accent glow | geometric sans + monospace | sharp (2-4px) | fast, precise |
+| warm-saas | warm neutrals + friendly accent | humanist sans | medium (8-12px) | moderate, smooth |
+| minimal | near-black + white + one accent | one font family, varied weights | subtle (4px) | very subtle |
+
+### /score -- Quantified Design Quality Score
+
+Run a comprehensive scoring algorithm:
+
+1. **Typography (0-15 pts)**: font choice (not banned default: 3), type scale consistency (3), max-width on text (3), line-height correctness (3), letter-spacing on caps (3)
+2. **Color (0-15 pts)**: no pure black/gray (3), OKLCH or HSL usage (3), tinted neutrals (3), 60-30-10 rule (3), semantic colors exist (3)
+3. **Spacing (0-10 pts)**: consistent scale (5), Gestalt grouping (5)
+4. **Accessibility (0-20 pts)**: axe-core violations (10), focus-visible (3), semantic HTML (3), alt text (2), reduced-motion (2)
+5. **Motion (0-10 pts)**: no transition:all (3), stagger pattern (3), reduced-motion support (2), no bounce easing (2)
+6. **Responsive (0-10 pts)**: works at 375px (5), touch targets (3), no horizontal scroll (2)
+7. **Performance (0-10 pts)**: Lighthouse perf score mapped (0-100 -> 0-10)
+8. **Anti-Slop (0-10 pts)**: deductions for each AI-slop fingerprint detected (-2 each, minimum 0)
+
+Total: 0-100. Output as:
+```
+## Picasso Design Score: 73/100
+
+Typography:    ████████████░░░  12/15
+Color:         ████████████░░░  11/15
+Spacing:       ████████░░       8/10
+Accessibility: ████████████████ 16/20
+Motion:        ██████░░░░       6/10
+Responsive:    ████████░░       8/10
+Performance:   ██████░░░░       6/10
+Anti-Slop:     ██████░░░░       6/10
+
+Top issues to fix for +15 points:
+1. Add prefers-reduced-motion support (+4)
+2. Replace #000 with tinted near-black (+3)
+3. ...
+```
+
+### /compete <url> -- Competitive Design Analysis
+
+Compare the current project against a competitor:
+1. Screenshot both sites (desktop + mobile)
+2. Extract design DNA from both
+3. Compare head-to-head across categories:
+   - Typography quality
+   - Color cohesion
+   - Spacing consistency
+   - Motion sophistication
+   - Mobile experience
+   - Performance (Lighthouse)
+   - Accessibility (axe)
+4. Output a comparison table with winner per category
+5. Generate specific recommendations: "Their typography is stronger because they use a modular type scale. Yours uses 7 different font sizes with no clear ratio."
+
+### /evolve -- Iterative Design Refinement Loop
+
+Multi-round design refinement:
+1. **Round 1: Directions** -- Generate 3 distinct aesthetic directions for the page/component. Describe each in 2-3 sentences with the key differentiator. Ask user to pick one (or combine elements).
+2. **Round 2: Refinement** -- Implement the chosen direction. Screenshot it. Ask "What do you love? What's not right?"
+3. **Round 3: Polish** -- Apply feedback. Screenshot again. Ask "Are we there? Or one more round?"
+4. **Round 4+: Iterate** -- Continue until user says "ship it"
+
+Rules:
+- Never generate just one option in Round 1
+- Each direction must be genuinely different (not three variations of the same thing)
+- Always screenshot between rounds so the user can SEE the change
+- Max 5 rounds before suggesting we ship (diminishing returns)
+
+### /mood-board -- Generate Visual Inspiration
+
+When the user isn't sure what they want, generate a mood board:
+1. Ask for 3-5 adjectives or reference points
+2. Search the style-presets.md for matching presets
+3. Generate a single HTML file at `/tmp/picasso-moodboard.html` that shows:
+   - Color swatches with OKLCH values
+   - Font samples at different sizes
+   - Example component (a card, a button, a hero) in that style
+   - Spacing rhythm visualization
+4. Open in browser for the user to react to
+
+### /design-system-sync -- Auto-sync Code to DESIGN.md
+
+Detect drift between DESIGN.md and actual code:
+1. Parse DESIGN.md tokens (colors, fonts, spacing, radius)
+2. Extract actual values used in code (via grep)
+3. Compare and produce a drift report:
+   - "DESIGN.md says accent is oklch(0.55 0.25 250) but code uses #3b82f6 in 7 places"
+   - "DESIGN.md says body font is 'Outfit' but globals.css declares 'Inter'"
+4. Offer to auto-fix all drift with a single confirmation
+
+### /preset <name> -- Apply Community Preset
+
+Apply a curated design preset by name:
+1. Load from style-presets.md or a presets directory
+2. Generate `.picasso.md` + `DESIGN.md` from the preset
+3. Apply to the codebase:
+   - Update CSS variables / Tailwind config
+   - Update font imports
+   - Adjust component styling
+4. Available presets: linear, stripe, vercel, notion, raycast, editorial, luxury, brutalist, dark-tech, warm-saas, cyberpunk, cottage, etc.
 
 ## Advanced Automation Commands
 

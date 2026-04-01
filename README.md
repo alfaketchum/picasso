@@ -4,15 +4,17 @@
 </p>
 
 <p align="center">
-  20 reference domains &bull; 25+ commands &bull; 4,700+ lines of actionable design intelligence<br/>
+  20 reference domains &bull; 35+ commands &bull; 4,700+ lines of actionable design intelligence<br/>
   Every interface looks like a senior design engineer spent days on it.
 </p>
 
 <p align="center">
   <a href="#install">Install</a> &bull;
   <a href="#what-makes-picasso-different">Why Picasso</a> &bull;
+  <a href="#the-design-interview">Interview</a> &bull;
+  <a href="#creative-commands">Creative Commands</a> &bull;
   <a href="#benchmark">Benchmarks</a> &bull;
-  <a href="#commands">Commands</a> &bull;
+  <a href="#commands">All Commands</a> &bull;
   <a href="#references">References</a> &bull;
   <a href="#sources">Sources</a>
 </p>
@@ -89,6 +91,178 @@ Picasso doesn't just describe tools -- it specifies exactly how to use them with
 
 ---
 
+## The Design Interview
+
+When you first use Picasso on a project, it doesn't just start generating. It asks.
+
+```
+Picasso: What are we building? New project, redesign, polish, or fixing specific issues?
+You:     New SaaS dashboard for a fintech startup
+
+Picasso: Who is this for?
+You:     Financial analysts, 30-50 age range, use Bloomberg terminals all day
+
+Picasso: What's the vibe? Any sites you love the look of?
+You:     Dark, dense, like Linear meets Bloomberg. Here's a reference: linear.app
+
+Picasso: Rate these 1-5:
+         Animations? Mobile? Accessibility? Dark mode? Performance?
+You:     Animations 3, Mobile 2, A11y 5, Dark mode YES, Perf 5
+
+Picasso: Got it. Here's what I'm building:
+         → Dark-tech aesthetic inspired by Linear
+         → Dense layout (VISUAL_DENSITY: 8), subtle motion (MOTION_INTENSITY: 3)
+         → WCAG AAA accessibility, dark-first, performance-critical
+         → Generating .picasso.md and DESIGN.md now...
+         Sound good?
+```
+
+The interview generates a `.picasso.md` config that persists your preferences across every future session. Run `/picasso` anytime to redo it.
+
+---
+
+## Creative Commands
+
+These are the features that make Picasso unlike any other design tool.
+
+### `/roast` -- The Brutally Honest Critique
+
+Forget polite feedback. `/roast` tears your design apart with designer-Twitter energy.
+
+```
+🔥🔥🔥🔥 ROAST SCORE: 4/5
+
+This hero section looks like every v0 output from 2024. The purple gradient
+physically hurts my eyes. The three identical cards are a cry for help. And
+the "Build the future of work" headline? It's 2026 -- we've moved on.
+
+The Inter font is doing NOTHING for you. It's the design equivalent of
+wearing khakis to a nightclub. And transition: all 0.3s? That's animating
+your box-shadow, your border-color, and your will to live.
+
+Here's how to fix it:
+1. Kill the gradient. Use oklch(0.15 0.02 250) as your background.
+2. Replace Inter with Satoshi for display, DM Sans for body.
+3. Break the three-card grid. Make the first card 2x width.
+...
+
+What IS working: Your spacing scale is consistent (4px base) and the
+semantic HTML structure is solid. Build on that.
+```
+
+### `/score` -- Quantified Design Quality
+
+A single 0-100 score, broken down by category. Track it over time.
+
+```
+## Picasso Design Score: 73/100
+
+Typography:    ████████████░░░  12/15
+Color:         ████████████░░░  11/15
+Spacing:       ████████░░       8/10
+Accessibility: ████████████████ 16/20
+Motion:        ██████░░░░       6/10
+Responsive:    ████████░░       8/10
+Performance:   ██████░░░░       6/10
+Anti-Slop:     ██████░░░░       6/10
+
+Top fixes for +15 points:
+1. Add prefers-reduced-motion support (+4)
+2. Replace #000 with tinted near-black (+3)
+3. Add staggered entrance animation (+3)
+4. Set max-width on body text (+3)
+5. Replace outline:none with focus-visible (+2)
+```
+
+### `/steal <url>` -- Extract Any Site's Design DNA
+
+Point at a live website and Picasso extracts its entire design language into a `.picasso.md` config.
+
+```bash
+/steal https://linear.app
+```
+
+Extracts: fonts, color palette, spacing rhythm, border-radius system, shadow style, animation patterns, layout structure. Generates a config that makes your project match that aesthetic.
+
+### `/mood <word>` -- Instant Design System from a Word
+
+```bash
+/mood cyberpunk
+```
+
+Generates a complete design system -- palette, fonts, spacing, motion, component styling -- from a single evocative word. Works with: `cyberpunk`, `cottage`, `brutalist`, `luxury`, `editorial`, `playful`, `corporate`, `dark-tech`, `warm-saas`, `minimal`, and any combination.
+
+### `/evolve` -- Iterative Multi-Round Refinement
+
+Instead of generating once and hoping, Picasso proposes 3 distinct directions, lets you pick, then refines through multiple rounds:
+
+```
+Round 1: Here are 3 directions:
+  A) Minimal monochrome -- Geist font, black/white, sharp corners
+  B) Warm editorial -- Instrument Serif headers, terracotta accent, soft radius
+  C) Dark technical -- JetBrains Mono accent, neon green, dense layout
+
+You: B, but darker
+
+Round 2: [implements B with darker surfaces, screenshots]
+         What do you love? What's not right?
+
+You: Love the typography. Cards need more breathing room.
+
+Round 3: [adjusts spacing, screenshots]
+         Are we there?
+
+You: Ship it.
+```
+
+### `/compete <url>` -- Head-to-Head Design Battle
+
+```bash
+/compete https://competitor.com
+```
+
+Screenshots both sites, scores both, produces a head-to-head comparison:
+
+```
+                    You        Competitor
+Typography:         72         88          ← They win (modular scale)
+Color:              85         71          ← You win (better contrast)
+Responsive:         90         65          ← You win (mobile-first)
+Performance:        45         92          ← They win (image optimization)
+Accessibility:      88         42          ← You win (focus states)
+Overall:            76         72          ← You win, barely
+
+Key gap: Their typography is stronger because they use a consistent
+1.25 ratio scale. Yours has 7 different sizes with no clear ratio.
+Fix this and you pull ahead significantly.
+```
+
+### `/before-after` -- Visual Transformation Report
+
+After any `/polish` or `/redesign`, auto-generates side-by-side screenshots showing exactly what changed and why. Shareable HTML report.
+
+### `/mood-board` -- Visual Inspiration Generator
+
+Not sure what you want? Give Picasso 3-5 adjectives and it generates an interactive HTML mood board with color swatches, font samples, and example components in that style.
+
+### `/design-system-sync` -- Keep Code and DESIGN.md in Sync
+
+Detects when your code has drifted from your design system. Finds every hardcoded color that should be a token, every wrong font weight, every spacing violation. Offers one-click fix.
+
+### `/preset <name>` -- One-Command Aesthetic
+
+```bash
+/preset linear     # Linear-inspired dark minimal
+/preset stripe     # Stripe-inspired gradient editorial
+/preset vercel     # Vercel-inspired black/white sharp
+/preset notion     # Notion-inspired warm readable
+/preset brutalist  # Raw, intentional, monospace
+```
+
+Generates `.picasso.md` + `DESIGN.md` + updates your CSS variables in one command.
+
+---
+
 ## Benchmark
 
 ### Picasso vs. Every Other Design Skill
@@ -100,7 +274,7 @@ We compared Picasso against every publicly available AI design skill as of April
 | **Reference domains** | **20** | 1 | 7 | 1 | 1-3 |
 | **Total lines of guidance** | **4,700+** | ~120 | ~2,500 | ~200 | 50-300 |
 | **Anti-pattern rules** | **50+** | ~10 | ~30 | ~5 | 0-5 |
-| **Steering commands** | **25+** | 0 | 20 | 0 | 0-3 |
+| **Steering commands** | **35+** | 0 | 20 | 0 | 0-3 |
 | **ARIA patterns documented** | **12 widgets** | 0 | 0 | 0 | 0 |
 | **React performance rules** | **45 (Vercel)** | 0 | 0 | 0 | 0 |
 | **Chart/data viz guidance** | **Full matrix** | None | None | None | None |
@@ -112,7 +286,9 @@ We compared Picasso against every publicly available AI design skill as of April
 | **UX psychology** | **6 laws + patterns** | None | None | None | None |
 | **Design system generation** | **9-section (Stitch)** | None | None | None | None |
 | **Sound/haptics** | **soundcn + web-haptics** | None | None | None | None |
-| **Scoring system** | **/20 tech + /40 UX** | None | /20 + /40 | None | None |
+| **Scoring system** | **0-100 quantified** | None | /20 + /40 | None | None |
+| **Design interview** | **4-section onboarding** | None | None | None | None |
+| **Creative commands** | **10 (/roast, /steal, /evolve...)** | None | None | None | None |
 | **Tool integrations** | **7 libraries** | 0 | 0 | 0 | 0 |
 | **Sources consolidated** | **15+ repos** | 1 | 1 | 1 | 0-1 |
 
@@ -269,11 +445,39 @@ Picasso ships as both a **skill** (knowledge base) and an **agent** (autonomous 
 | `/harden` | Error handling and edge cases: text overflow, i18n (RTL, expansion), network errors, empty/loading/error states, browser compat |
 | `/onboard` | Design onboarding: signup friction reduction, first-run experience, progressive feature discovery, setup checklists |
 
+### Creative
+
+| Command | What It Does |
+|---|---|
+| `/picasso` | Run the design interview -- deep discovery conversation, generates `.picasso.md` config |
+| `/roast` | Brutally honest critique with designer-Twitter energy. Every roast includes the fix. Rated 🔥-🔥🔥🔥🔥🔥. |
+| `/score` | Quantified 0-100 design score with category breakdown (typography, color, spacing, a11y, motion, responsive, perf, anti-slop) |
+| `/steal <url>` | Extract design DNA from any live website into a `.picasso.md` config |
+| `/mood <word>` | Generate complete design system from a single evocative word (cyberpunk, cottage, luxury, etc.) |
+| `/evolve` | Multi-round iterative refinement: 3 directions → pick → refine → ship |
+| `/compete <url>` | Head-to-head design comparison against a competitor with per-category scoring |
+| `/before-after` | Visual side-by-side comparison report after changes (HTML export) |
+| `/mood-board` | Generate interactive HTML mood board from adjectives |
+| `/design-system-sync` | Detect and auto-fix drift between DESIGN.md and actual code |
+| `/preset <name>` | Apply a curated preset (linear, stripe, vercel, notion, brutalist, etc.) |
+
 ### Advanced
 
 | Command | What It Does |
 |---|---|
-| `/overdrive` | Technically extraordinary effects. Proposes 2-3 directions before building. Toolkit: View Transitions API, scroll-driven animations, WebGL/Three.js, @property gradient animation, Web Audio, spring physics. Targets 60fps. Progressive enhancement required. |
+| `/overdrive` | Technically extraordinary effects. View Transitions, scroll-driven animations, WebGL, @property gradients, Web Audio, spring physics. 60fps. Progressive enhancement. |
+
+### Automation (Agent-Only)
+
+| Command | What It Does |
+|---|---|
+| `/a11y` | Full accessibility audit: axe-core + pa11y + Lighthouse with JSON parsing |
+| `/perf` | Lighthouse performance audit with Core Web Vitals pass/fail thresholds |
+| `/visual-diff` | Screenshot desktop + mobile in light/dark mode, analyze visually |
+| `/consistency` | Multi-page consistency check across all routes |
+| `/lint-design` | Find hardcoded colors, spacing violations, font inconsistencies, z-index chaos |
+| `/install-hooks` | Generate git pre-commit hook for automated design checks |
+| `/ci-setup` | Generate GitHub Actions workflow for PR design review with scores |
 
 ---
 
