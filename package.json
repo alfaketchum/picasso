@@ -1,0 +1,36 @@
+{
+  "name": "picasso-skill",
+  "version": "1.0.0",
+  "description": "The ultimate AI design skill for producing distinctive, production-grade frontend interfaces",
+  "bin": {
+    "picasso-skill": "./bin/install.mjs"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skill",
+    "design",
+    "frontend",
+    "ui",
+    "ux",
+    "cursor",
+    "codex",
+    "ai-agent",
+    "tailwind",
+    "react"
+  ],
+  "author": "viperrcrypto",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/viperrcrypto/picasso.git"
+  },
+  "homepage": "https://github.com/viperrcrypto/picasso",
+  "files": [
+    "bin/",
+    "skills/",
+    "SKILL.md",
+    "references/",
+    "LICENSE"
+  ]
+}
