@@ -40,6 +40,7 @@ Before writing any code, read the reference files relevant to the task. Each cov
 | `references/typography.md` | Any task involving text, fonts, headings, or type hierarchy |
 | `references/color-and-contrast.md` | Color palettes, dark mode, accessibility, tinted neutrals |
 | `references/spatial-design.md` | Layout, spacing, grids, visual hierarchy, whitespace |
+| `references/depth-and-elevation.md` | Dual shadows, layering technique, shadow scale, z-index, hover patterns |
 | `references/motion-and-animation.md` | Transitions, scroll effects, text morphing, micro-interactions |
 | `references/interaction-design.md` | Forms, focus states, loading, empty states, error handling |
 | `references/responsive-design.md` | Mobile-first, fluid, container queries, touch targets |
@@ -61,6 +62,7 @@ This step is non-negotiable. It takes 30 seconds and prevents hours of rework.
    - Font: [exact name, not a banned default]
    - Layout strategy: [specific — not "centered everything"]
    - Accent color: [exact value in OKLCH — not Tailwind default indigo]
+   - Border-radius strategy: [at least 3 distinct values — buttons, cards, modals, tags — never one radius for everything]
    - What makes this unforgettable: [one specific, memorable design choice]
    - What you're explicitly rejecting: [the obvious/generic approach for this type of product]
 3. **Run the 3-Second Test** — picture the finished design. Would a designer say "AI-generated" in 3 seconds? If yes, change your commitments.
@@ -224,6 +226,21 @@ These optional directives can be used to steer design refinement:
 
 ---
 
+## What Makes Design Feel Designed
+
+The anti-slop gate catches what NOT to do. This section describes what good design feels like -- the positive traits to aim for.
+
+- **Intentional asymmetry.** Not everything centered. A sidebar heavier than the main content. A grid where one card spans two rows. Deliberate imbalance creates visual interest.
+- **Typographic personality.** The font choice says something about the product. A fintech app using Clash Display feels different from one using Instrument Serif. The choice is the message.
+- **Color restraint with one brave moment.** A monochromatic palette with a single saturated accent on the primary CTA. The accent earns attention because everything else is quiet.
+- **Depth as information architecture.** Shadows and elevation are not decoration. They tell the user what is interactive, what is background, and what demands attention right now.
+- **Motion that teaches.** A staggered reveal shows the user where to look first, second, third. A hover lift says "this is clickable." Animation is communication.
+- **Whitespace as confidence.** Generous spacing says the product is not desperate for attention. It trusts the content to speak for itself.
+
+If you can describe these qualities in the output you are building, the design is probably good. If you cannot, revisit Step 1.
+
+---
+
 ## Gotchas (Real Failure Points)
 
 These are not best practices. These are things that actually break in production and that AI agents get wrong repeatedly. Each one has burned real time.
@@ -241,6 +258,22 @@ These are not best practices. These are things that actually break in production
 6. **Tailwind class strings over 200 characters.** Once a class string hits 200+ characters the component is unmaintainable. Extract to a CSS class with `@apply`, or better yet, use a `cn()` utility with conditional objects. This isn't a style preference -- it's a readability threshold.
 
 7. **Icon SVGs without `aria-hidden="true"`.** Every inline SVG icon announces itself to screen readers as "image" with no label. Decorative icons need `aria-hidden="true"`. Icons that ARE the only content (icon-only buttons) need `aria-label` on the button instead.
+
+8. **`forced-colors` mode breaks custom design.** Windows High Contrast mode (`@media (forced-colors: active)`) overrides custom focus rings, tinted neutrals, and subtle borders. Test with it. Custom focus indicators need `forced-color-adjust: none` or a `Highlight` system color fallback.
+
+9. **Missing `width`/`height` on images causes CLS.** Every `<img>` without explicit dimensions (or `aspect-ratio`) causes Cumulative Layout Shift when it loads. Always set dimensions or use `aspect-ratio` as a fallback. This is the #1 CLS offender in production.
+
+10. **Autofill styling overrides your inputs.** Browsers apply their own background color to autofilled inputs, ignoring your dark mode or custom input styles. Fix with `input:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px var(--surface-1) inset; }`.
+
+11. **`backdrop-filter: blur()` fails with `overflow: hidden` parent.** In some browsers (notably older Safari), `backdrop-filter` does not render if any ancestor has `overflow: hidden`. Move the blurred element outside the clipping context or restructure the DOM.
+
+12. **`position: fixed` breaks inside `transform` parents.** A `transform` on any ancestor creates a new containing block, making `position: fixed` behave like `position: absolute`. Move fixed elements to a body-level portal or remove the ancestor transform.
+
+13. **`content-visibility: auto` breaks `position: sticky`.** The `content-visibility: auto` optimization creates a new layout containment context that prevents `position: sticky` children from working. Either skip `content-visibility` on sticky containers or restructure the nesting.
+
+14. **`scroll-behavior: smooth` on `html` interferes with programmatic scrolling.** Setting `scroll-behavior: smooth` globally makes `scrollTo()`, `scrollIntoView()`, and anchor navigation all animate, which breaks instant programmatic jumps. Apply `scroll-behavior: smooth` per-container instead of on `<html>`.
+
+15. **Preset style exceptions are not contradictions.** Some presets (e.g., Swiss Modern using Archivo, or a retro terminal preset using monospace) intentionally use fonts that appear on the banned list. Presets are scoped exceptions with a clear aesthetic rationale. Do not flag them as anti-slop violations.
 
 ---
 

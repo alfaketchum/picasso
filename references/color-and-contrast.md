@@ -9,7 +9,9 @@
 6. CSS Variables Pattern
 7. Curated Color Palettes
 8. Wide Gamut Colors (P3)
-9. Common Mistakes
+9. `light-dark()` CSS Function
+10. `color-mix()` for Runtime Blending
+11. Common Mistakes
 
 ---
 
@@ -412,7 +414,58 @@ Note: OKLCH values automatically map to the widest gamut the browser and display
 
 ---
 
-## 9. Common Mistakes
+## 9. `light-dark()` CSS Function
+
+The `light-dark()` function returns one of two values depending on the current `color-scheme`. This eliminates the need for duplicate variable declarations in many cases:
+
+```css
+:root {
+  color-scheme: light dark;
+}
+
+.surface {
+  background: light-dark(oklch(0.97 0.005 260), oklch(0.17 0.012 260));
+}
+.text {
+  color: light-dark(oklch(0.20 0.015 260), oklch(0.93 0.01 260));
+}
+.border {
+  border-color: light-dark(oklch(0.88 0.01 260), oklch(0.25 0.01 260));
+}
+```
+
+Use `light-dark()` for simple color flips (surfaces, text, borders). For complex theme differences (shadow systems, accent adjustments, chroma changes), continue using `[data-theme="dark"]` selectors or CSS custom properties for full control.
+
+Browser support: baseline since March 2024 (Chrome 123, Firefox 120, Safari 17.5).
+
+---
+
+## 10. `color-mix()` for Runtime Blending
+
+`color-mix()` blends two colors at runtime without defining intermediate tokens. Useful for hover states, tinted surfaces, and dynamic theming:
+
+```css
+/* Hover: darken accent by mixing with black */
+.btn:hover {
+  background: color-mix(in oklch, var(--accent), black 15%);
+}
+
+/* Subtle tint: mix accent into white */
+.surface-tinted {
+  background: color-mix(in oklch, var(--accent), white 92%);
+}
+
+/* Disabled: reduce opacity feel by mixing with the surface */
+.btn:disabled {
+  background: color-mix(in oklch, var(--accent), var(--surface-0) 60%);
+}
+```
+
+Always specify `in oklch` for perceptually uniform blending. Mixing `in srgb` produces muddier results, especially across hues.
+
+---
+
+## 11. Common Mistakes
 
 - Using pure black (#000) for text (use tinted near-black instead)
 - Using gray text on colored backgrounds (low contrast, hard to read)
@@ -421,3 +474,4 @@ Note: OKLCH values automatically map to the widest gamut the browser and display
 - Forgetting to test dark mode after building light mode
 - Using brand colors at full saturation for large surfaces (they vibrate and cause eye strain; reserve full chroma for small accents)
 - Not providing hover/focus states with visible color change
+- Using `color-mix(in srgb, ...)` instead of `color-mix(in oklch, ...)` (sRGB blending produces muddier, less predictable results)
