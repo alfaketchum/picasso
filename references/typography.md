@@ -10,7 +10,9 @@
 7. Web Font Loading
 8. Curated Font Pairings
 9. Variable Fonts
-10. Common Mistakes
+10. Dark Mode Font Weight
+11. Metric-Matched Font Fallbacks
+12. Common Mistakes
 
 ---
 
@@ -361,7 +363,46 @@ A single variable font file (typically 50-120KB for Latin subset) replaces 4-8 s
 
 ---
 
-## 10. Common Mistakes
+## 10. Dark Mode Font Weight
+
+Light text on a dark background appears optically heavier than the same weight on white. Compensate by reducing body font weight in dark mode:
+
+```css
+:root[data-theme="dark"] {
+  --body-weight: 350;
+}
+.body {
+  font-weight: var(--body-weight, 400);
+}
+```
+
+Also increase line-height by 0.05-0.1 for light-on-dark text to improve readability. This is a subtle refinement that separates polished dark themes from rushed ones.
+
+---
+
+## 11. Metric-Matched Font Fallbacks (Eliminate CLS)
+
+Custom fonts cause Cumulative Layout Shift when the fallback and custom font have different metrics. Fix this with `@font-face` override descriptors that match the fallback to the custom font:
+
+```css
+@font-face {
+  font-family: 'CustomFont-Fallback';
+  src: local('Arial');
+  size-adjust: 105%;
+  ascent-override: 90%;
+  descent-override: 20%;
+  line-gap-override: 10%;
+}
+
+/* Use in the font stack */
+--font-body: 'Satoshi', 'CustomFont-Fallback', sans-serif;
+```
+
+Measure your custom font's metrics against the fallback (tools like `fontpie` or the Chrome DevTools font panel help) and tune these four values. The result: zero layout shift on font load, even with `font-display: swap`.
+
+---
+
+## 12. Common Mistakes
 
 - Using more than 3 font families on a page
 - Setting body text below 16px on desktop or 14px on mobile
@@ -370,3 +411,5 @@ A single variable font file (typically 50-120KB for Latin subset) replaces 4-8 s
 - Centering long paragraphs (center alignment works for 1-2 lines maximum)
 - Forgetting to set `max-width` on text blocks (ideal: 60-75 characters per line, roughly 600-750px)
 - Using all caps for more than a few words without increasing letter-spacing
+- Not adjusting font weight for dark mode (light-on-dark text appears heavier)
+- Missing metric-matched fallbacks (causes CLS on font load)

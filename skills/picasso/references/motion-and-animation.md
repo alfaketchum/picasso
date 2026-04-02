@@ -33,8 +33,13 @@ Invest time in this order. A well-choreographed page load does more than fifty m
 
 ### Use These
 ```css
-/* Standard ease-out: elements arriving */
---ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+/* Named exponential curves — graduated drama for arrivals */
+--ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);     /* standard arrivals */
+--ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);     /* smooth arrivals */
+--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);       /* dramatic arrivals */
+
+/* Shorthand alias — default to expo for most cases */
+--ease-out: var(--ease-out-expo);
 
 /* Standard ease-in: elements departing */
 --ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53);
@@ -45,6 +50,8 @@ Invest time in this order. A well-choreographed page load does more than fifty m
 /* Spring-like (subtle): natural deceleration */
 --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 ```
+
+Use `--ease-out-quart` for routine UI (tooltips, dropdowns), `--ease-out-quint` for smooth page reveals, and `--ease-out-expo` for dramatic hero entrances. Having three named curves lets you dial drama without reaching for custom values.
 
 ### Never Use
 - `linear` for UI animations (looks mechanical)

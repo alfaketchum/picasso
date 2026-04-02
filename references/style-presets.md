@@ -19,7 +19,7 @@
 | Muted | `#8a8a8a` | Secondary text |
 | Surface | `#1e1e2e` | Cards, panels |
 
-**Fonts:** Archivo Black (headings) + Space Grotesk (body)
+**Fonts:** Archivo Black (headings) + Satoshi (body)
 **Border Radius:** `8px`
 **Signature Element:** Full-bleed orange gradient bar across the top of hero sections. Oversized display type (80px+) with tight letter-spacing (-0.03em).
 
