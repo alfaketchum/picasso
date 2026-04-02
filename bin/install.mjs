@@ -42,24 +42,23 @@ const home = process.env.HOME || process.env.USERPROFILE;
 let skillDir;
 let agentDir;
 
-if (isGlobal) {
-  skillDir = join(home, ".claude", "skills", "picasso");
-  agentDir = join(home, ".claude", "agents");
+// OpenClaw must be checked BEFORE generic isGlobal to handle --openclaw -g correctly
+if (args.includes("--openclaw")) {
+  if (isGlobal) {
+    skillDir = join(home, ".openclaw", "skills", "picasso");
+  } else {
+    skillDir = join(process.cwd(), "skills", "picasso");
+  }
+  agentDir = null; // OpenClaw uses SOUL.md, not agents/
 } else if (args.includes("--cursor")) {
   skillDir = join(process.cwd(), ".cursor", "skills", "picasso");
   agentDir = null; // Cursor doesn't support agents
 } else if (args.includes("--codex")) {
   skillDir = join(home, ".codex", "skills", "picasso");
   agentDir = null;
-} else if (args.includes("--openclaw")) {
-  // OpenClaw: skills live in workspace skills/ dir or ~/.openclaw/skills/
-  const openclawGlobal = args.includes("--global") || args.includes("-g");
-  if (openclawGlobal) {
-    skillDir = join(home, ".openclaw", "skills", "picasso");
-  } else {
-    skillDir = join(process.cwd(), "skills", "picasso");
-  }
-  agentDir = null; // OpenClaw uses SOUL.md, not agents/
+} else if (isGlobal) {
+  skillDir = join(home, ".claude", "skills", "picasso");
+  agentDir = join(home, ".claude", "agents");
 } else if (args.includes("--agents")) {
   skillDir = join(process.cwd(), ".agents", "skills", "picasso");
   agentDir = null;

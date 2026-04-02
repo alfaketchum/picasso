@@ -528,7 +528,7 @@ When the user invokes these commands, execute the corresponding workflow:
 | `/preset <name>` | Apply a curated community design preset |
 | `/godmode` | The ultimate command: interview + audit + score + roast + fix everything + before/after report |
 | `/quick-audit` | 5-minute fast audit: font, color, spacing, a11y, anti-slop — skip the deep dive |
-| `/autorefine` | Binary evaluation loop: define 6 criteria, mutate one thing at a time, iterate to 95%+ pass rate |
+| `/autorefine` | Binary evaluation loop: define 6 criteria, mutate one thing at a time, iterate to 6/6 pass |
 | `/backlog` | Create persistent design debt backlog with impact-priority scoring in .picasso-backlog.md |
 | `/variants` | Generate 2-3 distinct visual directions for A/B comparison with previews |
 
@@ -542,10 +542,13 @@ When the user invokes these commands, execute the corresponding workflow:
 1. Run the **design interview** (Section 1-4) if no `.picasso.md` exists. If it exists, load it.
 2. **Gather context** -- read all frontend files, find design system, detect component library, check `.picasso.md`.
 
+**Phase 1b: Anti-Slop Gate**
+3. Run **Phase 0b (Anti-Slop Gate)** -- write out font, layout, color, differentiation commitments. This is mandatory even in godmode. No fixes until commitments are declared.
+
 **Phase 2: Assess**
-3. Run `/score` -- establish the **before score** (0-100). Save it.
+4. Run `/score` -- establish the **before score** (0-100). Save it.
 4. Run `/roast` -- get the brutally honest assessment. Show it to the user.
-5. Run `/audit` -- full 5-phase technical audit with severity-ranked findings.
+5. Run `/audit` -- full technical audit (Phase 1-4) with severity-ranked findings.
 6. Run `/a11y` -- axe-core + pa11y + Lighthouse accessibility.
 7. Run `/perf` -- Lighthouse performance with Core Web Vitals.
 8. Run `/lint-design` -- find all design token violations.
@@ -656,9 +659,9 @@ Point at any live website and extract its design DNA:
 2. Analyze the screenshot visually for: fonts, color palette, spacing rhythm, border-radius, animation style, layout structure
 3. Use bash to fetch the page and extract CSS:
 ```bash
-curl -s "<url>" | grep -oP 'font-family:[^;]+' | sort -u | head -10
-curl -s "<url>" | grep -oP '#[0-9a-fA-F]{3,8}' | sort | uniq -c | sort -rn | head -15
-curl -s "<url>" | grep -oP 'border-radius:[^;]+' | sort -u
+curl -s "<url>" | grep -oE 'font-family:[^;]+' | sort -u | head -10
+curl -s "<url>" | grep -oE '#[0-9a-fA-F]{3,8}' | sort | uniq -c | sort -rn | head -15
+curl -s "<url>" | grep -oE 'border-radius:[^;]+' | sort -u
 ```
 4. Generate a `.picasso.md` config that matches the extracted aesthetic
 5. Optionally generate a DESIGN.md based on the extraction
@@ -886,7 +889,7 @@ Run Stylelint + grep-based checks to find design system violations:
 grep -rn '#[0-9a-fA-F]\{3,8\}' --include="*.tsx" --include="*.jsx" --include="*.css" | grep -v 'node_modules\|\.git\|\.next' | head -30
 
 # 2. Find inconsistent spacing values (non-4px-multiple)
-grep -rn 'padding\|margin\|gap' --include="*.css" --include="*.tsx" | grep -oP '\d+px' | sort | uniq -c | sort -rn
+grep -rn 'padding\|margin\|gap' --include="*.css" --include="*.tsx" | grep -oE '\d+px' | sort | uniq -c | sort -rn
 
 # 3. Find non-standard font stacks
 grep -rn 'font-family\|fontFamily' --include="*.css" --include="*.tsx" --include="*.jsx" | grep -v 'node_modules' | head -20
@@ -1078,7 +1081,7 @@ failed.forEach(a => console.log('  FAIL: ' + a.id + ' - ' + a.title));
 
 Combine results from all three tools, deduplicate overlapping findings, and report with severity levels.
 
-## /quick-audit -- 5-Minute Fast Audit
+### /quick-audit -- 5-Minute Fast Audit
 
 When time is short or you need a triage before committing to a full audit. Takes 5 minutes, not 30.
 
@@ -1105,7 +1108,7 @@ Anti-Slop:     FAIL ✗  (4 fingerprints: centered layout + uniform cards + indi
 Result: 3/6 — Needs work. Start with color and spacing.
 ```
 
-## /autorefine -- Binary Evaluation Loop
+### /autorefine -- Binary Evaluation Loop
 
 Iterative improvement using binary (pass/fail) criteria. Inspired by SkillForge's autoresearch pattern that improved one skill from 56% to 92%.
 
@@ -1127,7 +1130,7 @@ Iterative improvement using binary (pass/fail) criteria. Inspired by SkillForge'
 
 4. **Re-evaluate all 6 criteria** after each mutation. Sometimes fixing one thing breaks another.
 
-5. **Iterate until 95%+ pass rate** (at least 6/6) across 3 consecutive evaluations. If a criterion keeps flipping between PASS and FAIL, the fix is unstable -- investigate root cause.
+5. **Iterate until 6/6 pass** across 3 consecutive evaluations. If a criterion keeps flipping between PASS and FAIL, the fix is unstable -- investigate root cause.
 
 6. **Stop after 8 mutations maximum.** If you haven't hit 95% by then, the remaining issues are structural and need a `/redesign`, not incremental fixes.
 
