@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  32 reference domains &bull; 40+ commands &bull; 11,000+ lines of actionable design intelligence<br/>
+  32 reference domains &bull; 13 slash commands + 22 agent behaviors &bull; 11,000+ lines of actionable design intelligence<br/>
   Every interface looks like a senior design engineer spent days on it.
 </p>
 
@@ -252,14 +252,6 @@ Fix this and you pull ahead significantly.
 
 After any `/polish` or `/redesign`, auto-generates side-by-side screenshots showing exactly what changed and why. Shareable HTML report.
 
-### `/mood-board` -- Visual Inspiration Generator
-
-Not sure what you want? Give Picasso 3-5 adjectives and it generates an interactive HTML mood board with color swatches, font samples, and example components in that style.
-
-### `/design-system-sync` -- Keep Code and DESIGN.md in Sync
-
-Detects when your code has drifted from your design system. Finds every hardcoded color that should be a token, every wrong font weight, every spacing violation. Offers one-click fix.
-
 ### `/preset <name>` -- One-Command Aesthetic
 
 ```bash
@@ -285,7 +277,7 @@ We compared Picasso against every publicly available AI design skill as of April
 | **Reference domains** | **32** | 1 | 7 | 1 | 1-3 |
 | **Total lines of guidance** | **11,000+** | ~120 | ~2,500 | ~200 | 50-300 |
 | **Anti-pattern rules** | **50+** | ~10 | ~30 | ~5 | 0-5 |
-| **Steering commands** | **40+** | 0 | 20 | 0 | 0-3 |
+| **Steering commands** | **35** | 0 | 20 | 0 | 0-3 |
 | **ARIA patterns documented** | **12 widgets** | 0 | 0 | 0 | 0 |
 | **React performance rules** | **45 (Vercel)** | 0 | 0 | 0 | 0 |
 | **Chart/data viz guidance** | **Full matrix** | None | None | None | None |
@@ -299,7 +291,7 @@ We compared Picasso against every publicly available AI design skill as of April
 | **Sound/haptics** | **soundcn + web-haptics** | None | None | None | None |
 | **Scoring system** | **0-100 quantified** | None | /20 + /40 | None | None |
 | **Design interview** | **4-section onboarding** | None | None | None | None |
-| **Creative commands** | **10 (/roast, /steal, /evolve...)** | None | None | None | None |
+| **Creative commands** | **8 (/roast, /steal, /evolve, /mood, /compete, /variants, /preset, /before-after)** | None | None | None | None |
 | **Tool integrations** | **7 libraries** | 0 | 0 | 0 | 0 |
 | **Sources consolidated** | **15+ repos** | 1 | 1 | 1 | 0-1 |
 
@@ -408,56 +400,27 @@ Picasso ships as both a **skill** (knowledge base) and an **agent** (autonomous 
 
 ## Commands
 
-### Quality Assessment
+Picasso has two types of commands: **slash commands** you invoke directly, and **agent behaviors** the Picasso agent handles internally when running pipelines like `/godmode`.
+
+### Slash Commands (User-Invocable)
+
+These have dedicated command files and can be invoked directly.
 
 | Command | What It Does |
 |---|---|
-| `/audit` | Technical quality check across 5 dimensions (accessibility, performance, theming, responsive, anti-patterns). Each scored 0-4, total /20. Issues tagged P0-P3. |
-| `/critique` | UX design review evaluating visual hierarchy, cognitive load, emotional journey, discoverability, composition. Scores Nielsen's 10 heuristics 0-4, total /40. |
-
-### Refinement
-
-| Command | What It Does |
-|---|---|
-| `/polish` | Final pass before shipping: visual alignment, typography refinement, color/contrast, all 8 interaction states, micro-interactions, content/copy, edge cases |
-| `/simplify` | Strip to essence: reduce scope, flatten structure, remove decorations, progressive disclosure, shorter copy, fewer variants |
-| `/normalize` | Realign to design system standards: fix hardcoded colors, inconsistent tokens, broken dark mode, spacing violations |
-| `/harden` | Error handling and edge cases: text overflow, i18n, network errors, empty/loading/error states, browser compat |
-
-### Amplification
-
-| Command | What It Does |
-|---|---|
-| `/animate` | Add purposeful motion: page load choreography, micro-interactions, state transitions, scroll effects, loading delight |
-| `/bolder` | Amplify timid designs: extreme type scale (3x-5x), vibrant color, spatial drama, dramatic shadows, custom elements |
-| `/quieter` | Tone down aggressive designs: reduce saturation to 70-85%, soften weights, increase whitespace, shorter animation distances |
-
-### Aesthetic Presets
-
-| Command | What It Does |
-|---|---|
-| `/soft` | Premium soft aesthetic: generous whitespace, layered depth, smooth spring animations, muted palette |
-| `/minimalist` | Editorial minimalism: monochrome, crisp borders, surgical precision, inspired by Linear/Notion |
-| `/brutalist` | Raw mechanical aesthetic: Swiss typography, CRT terminal feel, sharp edges, monospace accents |
-
-### System
-
-| Command | What It Does |
-|---|---|
-| `/theme` | Generate or apply a complete color/font theme with CSS variables |
-| `/stitch` | Generate a Google Stitch-compatible DESIGN.md (9-section format from VoltAgent) |
-| `/sound` | Add UI sound effects using soundcn (700+ CC0-licensed sounds) |
-| `/haptics` | Add mobile haptic feedback using web-haptics (4 presets + custom patterns) |
-| `/redesign` | Full audit + identify problems + fix systematically + re-audit cycle |
-
-### Design Debt
-
-| Command | What It Does |
-|---|---|
-| `/backlog` | Create persistent design debt backlog with impact-priority scoring in `.picasso-backlog.md` |
-| `/variants` | Generate 2-3 distinct visual directions for A/B comparison with code previews |
+| `/roast` | Brutally honest design critique with sharp, specific, funny feedback and screenshot verification |
+| `/score` | Quantified 0-100 design quality score with category breakdown |
+| `/godmode` | The ultimate command: interview + audit + score + roast + fix everything + before/after report |
 | `/quick-audit` | 5-minute fast audit: 6 binary pass/fail checks (font, color, layout, spacing, a11y, anti-slop) |
 | `/autorefine` | Binary evaluation loop: 6 criteria, mutate one thing at a time, iterate to 95%+ pass rate |
+| `/evolve` | Multi-round iterative design refinement with screenshots between rounds |
+| `/steal <url>` | Extract design DNA from any live website into `.picasso.md` |
+| `/mood <word>` | Generate complete design system from a single evocative word |
+| `/compete <url>` | Head-to-head design comparison against a competitor site |
+| `/before-after` | Visual side-by-side comparison after changes with HTML report |
+| `/preset <name>` | Apply a curated community design preset (linear, stripe, vercel, notion, etc.) |
+| `/variants` | Generate 2-3 distinct visual directions for A/B comparison with code previews |
+| `/backlog` | Create persistent design debt backlog with impact-priority scoring in `.picasso-backlog.md` |
 
 ### `/godmode` -- The Nuclear Option
 
@@ -478,15 +441,32 @@ GODMODE Complete: 42 → 87 (+45 points), 47 files modified, 23 issues fixed
 
 ---
 
-### Automation (Agent-Only)
+### Agent Behaviors (Internal)
 
-| Command | What It Does |
+These are defined in the Picasso agent and run as part of pipelines (e.g., `/godmode` calls several of these internally). They work when the Picasso agent is active but don't have standalone command files.
+
+| Behavior | What It Does |
 |---|---|
+| `/picasso` | Run the design interview, generates `.picasso.md` |
+| `/audit` | Full technical audit across typography, color, spacing, a11y, motion, responsive, interaction |
+| `/critique` | UX-focused review: hierarchy, clarity, emotional resonance, user flow |
+| `/polish` | Auto-fix all audit findings with smallest safe changes |
+| `/redesign` | Full audit + aggressive fixes + re-audit to verify improvement |
+| `/simplify` | Strip unnecessary complexity: flatten nesting, reduce color count |
+| `/animate` | Add purposeful motion: staggered reveals, hover states, scroll-triggered animations |
+| `/bolder` | Amplify timid designs: increase contrast, enlarge type, strengthen hierarchy |
+| `/quieter` | Tone down aggressive designs: reduce saturation, soften shadows, increase whitespace |
+| `/normalize` | Align with design system: replace hardcoded values with tokens |
+| `/harden` | Add error handling, loading states, empty states, edge case handling |
+| `/theme` | Generate or apply a theme via DESIGN.md |
+| `/stitch` | Generate a complete DESIGN.md from the current codebase |
 | `/a11y` | Full accessibility audit: axe-core + pa11y + Lighthouse with JSON parsing |
 | `/perf` | Lighthouse performance audit with Core Web Vitals pass/fail thresholds |
 | `/visual-diff` | Screenshot desktop + mobile in light/dark mode, analyze visually |
 | `/consistency` | Multi-page consistency check across all routes |
 | `/lint-design` | Find hardcoded colors, spacing violations, font inconsistencies, z-index chaos |
+| `/mood-board` | Generate visual inspiration HTML from adjectives |
+| `/design-system-sync` | Detect and fix drift between DESIGN.md and code |
 | `/install-hooks` | Generate git pre-commit hook for automated design checks |
 | `/ci-setup` | Generate GitHub Actions workflow for PR design review with scores |
 
