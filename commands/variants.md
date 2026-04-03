@@ -21,9 +21,8 @@ Generate 2-3 genuinely different aesthetic directions and show them as a side-by
    - For each direction, render a preview card showing: color palette strip, nav bar, heading, body text, sample card, primary/secondary buttons, input field -- all in that direction's tokens
    - Load fonts using the Font Mapping table from `references/visual-preview.md`
    - Write the comparison HTML to `/tmp/picasso-variants.html`
-   - Open via Playwright MCP: `mcp__playwright__browser_navigate` to `file:///tmp/picasso-variants.html`
-   - Screenshot at 1440x900 viewport
-   - View the screenshot with the Read tool
+   - Screenshot via Bash: `npx playwright screenshot /tmp/picasso-variants.html /tmp/picasso-variants.png --viewport-size=1200,800`
+   - View the screenshot: `Read /tmp/picasso-variants.png`
 6. Present the visual comparison to the user: "Here are the directions. Which speaks to you? Pick one, combine elements, or reject all."
 7. Also tell the user: "Open `/tmp/picasso-variants.html` in your browser for full resolution."
 
@@ -33,5 +32,5 @@ Generate 2-3 genuinely different aesthetic directions and show them as a side-by
 - No two directions can share the same heading font
 - At least one direction must be surprising or unconventional
 - Always include one "safe" option and one "bold" option
-- Visual preview is MANDATORY, not optional. If Playwright MCP is unavailable, write the HTML file and tell the user the path to open manually.
+- Visual preview is MANDATORY, not optional. If npx playwright is unavailable, write the HTML file and tell the user the path to open manually.
 - Never describe what the directions look like without viewing the screenshot first

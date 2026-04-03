@@ -24,8 +24,8 @@ Generate and display visual previews of design options.
    - Nav bar, hero section, card grid, form, footer
    - All styled with the project's committed tokens
 5. Write to `/tmp/picasso-preview.html`
-6. Open via Playwright MCP (`mcp__playwright__browser_navigate` to `file:///tmp/picasso-preview.html`)
-7. Screenshot at 1440x900, view with Read tool
+6. Screenshot via Bash: `npx playwright screenshot /tmp/picasso-preview.html /tmp/picasso-preview.png --viewport-size=1200,800`
+7. View: `Read /tmp/picasso-preview.png`
 8. Present to user: "Here's what your current design tokens look like rendered. Open `/tmp/picasso-preview.html` in your browser for full resolution."
 
 ### `/preview <preset-name>`
@@ -47,6 +47,6 @@ Generate and display visual previews of design options.
 ## Rules
 
 - Always load font URLs from the Font Mapping table in `references/visual-preview.md`
-- If Playwright MCP is unavailable, write the file and tell the user the path to open manually
+- If npx playwright is unavailable, write the file and tell the user the path to open manually
 - Never describe what the preview looks like without viewing the screenshot first
 - The HTML must be fully self-contained (inline styles, external font imports only)

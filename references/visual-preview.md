@@ -10,18 +10,27 @@ Every time Picasso presents 2+ aesthetic options for the user to choose from, ge
 
 ### Standard Flow
 
-1. **Generate** a self-contained HTML file with inline styles and font imports
+1. **Generate** a self-contained HTML file with inline styles (NO external font imports -- use `system-ui` with font name labels)
 2. **Write** to `/tmp/picasso-preview-{name}.html`
-3. **Open** via Playwright MCP: `mcp__playwright__browser_navigate` to `file:///tmp/picasso-preview-{name}.html`
-4. **Screenshot** via `mcp__playwright__browser_take_screenshot`
-5. **View** the screenshot with `Read` tool (mandatory -- never skip this)
-6. **Present** to the user with the file path so they can also open it in their browser
+3. **Screenshot** via Bash: `npx playwright screenshot /tmp/picasso-preview-{name}.html /tmp/picasso-preview-{name}.png --viewport-size=1200,800`
+   - `npx playwright screenshot` accepts file paths directly (no `file://` prefix needed)
+   - Do NOT use `mcp__playwright__browser_navigate` + `mcp__playwright__browser_take_screenshot` -- these timeout on external font loading and block `file://` protocol
+4. **View** the screenshot with `Read /tmp/picasso-preview-{name}.png` (mandatory -- never skip this)
+5. **Present** to the user with both paths (HTML for full-res browser viewing, PNG for quick preview)
 
-### If Playwright MCP Is Unavailable
+### If npx playwright Is Unavailable
 
 1. Write the HTML file to `/tmp/`
 2. Tell the user: "I've generated a visual preview at `/tmp/picasso-preview-{name}.html` -- open it in your browser to see the options."
 3. Do NOT make visual claims about what the preview looks like without viewing it
+
+### Font Rule for Previews
+
+Do NOT import Google Fonts or Fontshare fonts via `<link>` or `@import` in preview HTML. External font loading causes screenshot timeouts. Instead:
+- Use `system-ui, -apple-system, sans-serif` for body text
+- Use `Georgia, serif` for serif directions
+- Use `ui-monospace, monospace` for mono directions
+- **Label the intended font** in each preview card: "Font: Satoshi + DM Sans" so the user knows what will be used in the real implementation
 
 ### File Naming
 
@@ -48,9 +57,8 @@ Generate the full HTML dynamically. For each direction, substitute the actual fo
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Picasso: Choose a Direction</title>
 <!-- Import fonts for all directions shown -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family={FONT_1}&family={FONT_2}&family={FONT_3}&display=swap" rel="stylesheet">
+<!-- No external font imports -- use system fonts to avoid screenshot timeouts -->
+<!-- Label intended fonts in the .font-info footer of each card -->
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {

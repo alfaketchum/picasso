@@ -83,7 +83,7 @@ This is what makes Picasso different from every other design tool. Generate a ga
 
 5. Also generate a single `/tmp/picasso-gallery/index.html` that shows a thumbnail grid of all samples -- each as a small card (200px wide) with the sample number and the key differentiator (font name + primary color + one-word mood).
 
-6. Open the index page with Playwright MCP, screenshot at 1440x900, view with Read.
+6. Screenshot via Bash: `npx playwright screenshot /tmp/picasso-gallery/index.html /tmp/picasso-gallery.png --viewport-size=1200,800`. View: `Read /tmp/picasso-gallery.png`.
 
 7. Present: "Here are {N} directions for your app. React to what you see -- which ones do you like? Which do you hate? Anything close but needs tweaking? You can also open `/tmp/picasso-gallery/index.html` in your browser to browse them all."
 
@@ -158,7 +158,7 @@ Do NOT jump to code. Present a **Design Brief** -- a short, opinionated creative
    - Generate a self-contained HTML page showing a representative layout in the committed design tokens (nav + hero + card + buttons + input)
    - Use the Full Page Mood Preview structure from `references/visual-preview.md`
    - Write to `/tmp/picasso-brief-preview.html`
-   - Open with Playwright MCP, screenshot, view with Read
+   - Screenshot via Bash: `npx playwright screenshot /tmp/picasso-brief-preview.html /tmp/picasso-brief-preview.png --viewport-size=1200,800`. View with `Read`.
    - Present alongside the text brief: "Here's what I'm proposing -- the reasoning and a visual preview."
 
 4. **Generate `.picasso.md`** from the answers and save to project root.

@@ -35,7 +35,8 @@ If no mood word is provided, ask the user for one.
      - Footer with muted text
    - Load fonts using the Font Mapping table from `references/visual-preview.md`
    - Write to `/tmp/picasso-mood-{word}.html`
-   - Open via Playwright MCP, screenshot at 1440x900, view with Read tool
+   - Screenshot via Bash: `npx playwright screenshot /tmp/picasso-mood-{word}.html /tmp/picasso-mood-{word}.png --viewport-size=1200,800`
+   - View: `Read /tmp/picasso-mood-{word}.png`
    - Present to user: "This is what '{word}' looks like as a design system. Does this feel right, or should I adjust?"
 
 3. **Wait for confirmation.** Do not write `.picasso.md` or `DESIGN.md` until the user approves the visual direction.
@@ -48,4 +49,4 @@ If no mood word is provided, ask the user for one.
 
 - Never write config files before showing the visual preview
 - If the user says "adjust" or "not quite", iterate on the tokens and regenerate the preview
-- If Playwright MCP is unavailable, write the HTML and tell user the path to open manually
+- If npx playwright is unavailable, write the HTML and tell user the path to open manually
