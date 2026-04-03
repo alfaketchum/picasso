@@ -294,26 +294,25 @@ When the task involves algorithmic art, generative visuals, or static poster/pri
 
 ## Commands
 
-These optional directives can be used to steer design refinement:
+Available slash commands:
 
 | Command | Effect |
 |---|---|
-| `/audit` | Technical quality check: accessibility, performance, responsive |
-| `/critique` | UX design review: hierarchy, clarity, emotional resonance |
-| `/polish` | Final pass: refine spacing, transitions, copy |
-| `/simplify` | Strip to essence, remove visual noise |
-| `/animate` | Add purposeful motion and transitions |
-| `/bolder` | Amplify timid designs with stronger visual choices |
-| `/quieter` | Tone down overly aggressive designs |
-| `/normalize` | Align with design system standards |
-| `/theme` | Generate or apply a color/font theme |
-| `/sound` | Add UI sound effects to interactions |
-| `/haptics` | Add haptic feedback for mobile web |
-| `/redesign` | Audit an existing project, identify design problems, fix them systematically |
-| `/soft` | Apply premium soft aesthetic: generous whitespace, depth, smooth spring animations |
-| `/minimalist` | Apply editorial minimalism: monochrome, crisp borders, inspired by Linear/Notion |
-| `/brutalist` | Apply raw mechanical aesthetic: Swiss typography meets CRT terminal |
-| `/stitch` | Generate a Google Stitch-compatible DESIGN.md for the current project |
+| `/roast` | Brutally honest design critique |
+| `/score` | Quantified 0-100 design quality score with category breakdown |
+| `/quick-audit` | 5-minute fast design audit: 6 binary checks |
+| `/godmode` | The ultimate design transformation pipeline |
+| `/figma` | Analyze a Figma file and extract its design DNA |
+| `/steal` | Extract design DNA from a URL or Figma file |
+| `/variants` | Generate 2-3 distinct visual directions with side-by-side previews |
+| `/preview` | Generate visual previews of design directions or current tokens |
+| `/evolve` | Iterative multi-round design refinement |
+| `/mood` | Generate a complete design system from a mood word |
+| `/preset` | Browse and apply curated design presets with visual previews |
+| `/autorefine` | Binary evaluation loop: define criteria, mutate, iterate to 95%+ pass |
+| `/backlog` | Create and manage a persistent design debt backlog |
+| `/before-after` | Visual transformation report |
+| `/compete` | Head-to-head design comparison |
 
 ---
 
