@@ -86,6 +86,9 @@ Move focus to `<h1>` of new view (add `tabindex="-1"`) or main content landmark.
 <main id="main" tabindex="-1">...</main>
 ```
 
+### Focus Indicator Rule
+Never remove focus outlines without replacement. Use `:focus-visible` (not `:focus`) to show focus rings only for keyboard navigation, not mouse clicks.
+
 ### Focus Trapping
 Contain Tab/Shift+Tab within overlays. Use `inert` attribute on background content (modern browsers) or manage via JS. On last focusable element, Tab wraps to first.
 

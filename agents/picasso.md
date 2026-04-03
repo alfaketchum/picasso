@@ -169,7 +169,7 @@ Do NOT jump to code. Present a **Design Brief** -- a short, opinionated creative
 
 After the user confirms the brief, load the SPECIFIC reference files for what they selected. Do not load all 30+ references. Load only what's relevant:
 
-- Selected motion Tier 2+? Load `motion-and-animation.md` + `micro-interactions.md` + `animation-performance.md`
+- Selected motion Tier 2+? Load `motion-and-animation.md` + `micro-interactions.md`
 - Selected sounds? Load `sensory-design.md` (Section 1: UI Sound Design)
 - Selected haptics? Load `sensory-design.md` (Section 2: Haptic Feedback)
 - Selected animated icons? Load `micro-interactions.md` (Section 5: Toggle and Switch Animations)
@@ -288,10 +288,8 @@ skills/picasso/references/typography.md              # Fonts, scales, pairing
 skills/picasso/references/color-and-contrast.md      # OKLCH, tinted neutrals
 skills/picasso/references/spatial-design.md          # Spacing, grids, hierarchy
 skills/picasso/references/depth-and-elevation.md     # Shadows, z-index, layering
-skills/picasso/references/motion-and-animation.md    # Easing, staggering, duration
+skills/picasso/references/motion-and-animation.md    # Easing, staggering, duration, performance (compositor props, will-change, contain)
 skills/picasso/references/micro-interactions.md      # Scroll animations, gestures, View Transitions
-skills/picasso/references/animation-performance.md   # Compositor props, will-change, contain
-skills/picasso/references/interaction-design.md      # Forms, focus, states, Popover API
 skills/picasso/references/navigation-patterns.md     # Breadcrumbs, sidebar, tabs, bottom bar
 skills/picasso/references/tables-and-forms.md        # Sortable tables, validation, multi-step
 skills/picasso/references/loading-and-states.md      # Skeletons, empty states, error boundaries

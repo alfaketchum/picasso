@@ -29,8 +29,7 @@ Before writing any code, read the reference files relevant to the task. Each cov
 | `references/color-and-contrast.md` | Color palettes, dark mode, accessibility, tinted neutrals |
 | `references/spatial-design.md` | Layout, spacing, grids, visual hierarchy, whitespace |
 | `references/depth-and-elevation.md` | Dual shadows, layering technique, shadow scale, z-index, hover patterns |
-| `references/motion-and-animation.md` | Transitions, scroll effects, text morphing, micro-interactions |
-| `references/interaction-design.md` | Forms, focus states, loading, empty states, error handling |
+| `references/motion-and-animation.md` | Transitions, easing, staggering, duration, text morphing, performance (includes compositor props, will-change, layout thrashing, contain) |
 | `references/responsive-design.md` | Mobile-first, fluid, container queries, touch targets |
 | `references/sensory-design.md` | UI sound effects, haptic feedback, multi-sensory interfaces |
 | `references/react-patterns.md` | React/Next.js component architecture, hooks, performance |
@@ -46,7 +45,6 @@ Before writing any code, read the reference files relevant to the task. Each cov
 | `references/micro-interactions.md` | Scroll animations, page transitions, gestures, magnetic effects |
 | `references/i18n-visual-patterns.md` | RTL, logical properties, text expansion, CJK, number formatting |
 | `references/brand-and-identity.md` | Logo sizing, brand color usage, consistency, lockup variants |
-| `references/animation-performance.md` | Compositor-only props, will-change, layout thrashing, contain |
 | `references/code-typography.md` | Monospace fonts, syntax highlighting, code blocks, diff views |
 | `references/accessibility-wcag.md` | WCAG 2.2, ARIA patterns, keyboard nav, screen reader testing |
 | `references/conversion-design.md` | Landing pages, CTAs, pricing tables, friction reduction |
