@@ -68,16 +68,16 @@ That's it. Do not ask about animation preferences, mobile priority, accessibilit
 
 ### Step 3: Generate the Sample Gallery (THE KEY STEP)
 
-This is what makes Picasso different from every other design tool. Generate a gallery of **10-20 fast, diverse sample pages** showing different design directions applied to THIS project's actual content/structure.
+This is what makes Picasso different from every other design tool. Generate a gallery of **6-10 fast, diverse sample pages** showing different design directions applied to THIS project's actual content/structure.
 
-1. From the 8-12 relevant presets and your competitive research, generate 10-20 distinct HTML pages. Each one is a quick, self-contained page showing:
+1. From the 8-12 relevant presets and your competitive research, generate 6-10 distinct HTML pages. Each one is a quick, self-contained page showing:
    - The app's actual nav structure (from the codebase)
    - A representative content area (dashboard, listing, form -- whatever the app's primary screen is)
    - Styled with a different design direction (different font, color, layout, radius, density)
 
 2. Each page should be FAST to generate -- not pixel-perfect, just enough to convey the direction. Think 30 seconds per page, not 5 minutes. Use the templates from `references/visual-preview.md` but vary them significantly. The goal is VOLUME and DIVERSITY, not polish.
 
-3. Number each sample (1-20) so the user can reference them easily.
+3. Number each sample (1-10) so the user can reference them easily.
 
 4. Write all samples to `/tmp/picasso-gallery/sample-{N}.html` (create the directory).
 
@@ -117,7 +117,7 @@ Once the user picks a direction (or says "that one, ship it"):
 ### Why This Works
 
 - Users who "can't design" can easily say "I like that one" when shown options
-- Generating 20 fast samples takes less total time than a 20-question interview
+- Generating 6-10 fast samples takes less total time than a 20-question interview
 - The reactions reveal preferences the user didn't know they had
 - You bring inspiration TO the user -- they never have to go look at other sites
 - Each round narrows faster than verbal specification ever could
@@ -140,15 +140,7 @@ Quick follow-up questions (only ask what you couldn't determine from the code):
 
 ### Section 5: Anti-Slop Commitments (MANDATORY for Full Design and Overhaul)
 
-These questions force intentional differentiation. Do NOT skip them.
-
-- "What font will you use? (Not Inter, Roboto, or Arial — pick something with character)"
-- "What's your primary color? Give me a hex, OKLCH, or describe it. (Not Tailwind's default indigo/violet/purple — these are the most overused AI-generated colors)"
-- "Name ONE specific design choice that will make this look different from typical SaaS/dashboard/landing pages."
-- "What's your layout strategy? (Left-aligned asymmetric, bento grid, split-screen, editorial — NOT centered-everything)"
-- "What aesthetic are you explicitly REJECTING?" (This forces awareness of what NOT to do)
-
-If the user can't answer these, help them. Suggest 2-3 options for each based on the product context. But do not proceed until specific, non-default choices are committed to.
+Run Phase 0b (Anti-Slop Gate) before proceeding. See below.
 
 ### After the Interview: The Design Brief
 
@@ -251,7 +243,7 @@ Before proceeding, verify NONE of these are in your plan. If ANY single one is p
 - [ ] Dark sidebar paired with gradient CTA button
 - [ ] Icons inside colored circle/rounded-square containers (bg-[color]-100 p-2 rounded-lg)
 - [ ] hover:-translate-y + shadow-lg on cards
-- [ ] Staggered entrance animations (animation-delay) on stat cards or data
+- [ ] Staggered entrance animations on individual stat cards, data rows, or repeated items (animation-delay per card/row). Page-level section stagger (hero -> content -> footer) is fine.
 - [ ] Colored dots/badges per category in activity feeds
 - [ ] Converting hex to OKLCH and calling it a "redesign"
 
@@ -365,7 +357,7 @@ These are the telltale signs that make interfaces look AI-generated. Flag all of
 - [ ] Equal spacing everywhere with no visual grouping
 - [ ] `transition: all 0.3s` on elements
 - [ ] `hover:-translate-y + shadow-lg` on cards
-- [ ] Staggered entrance animations on static data (animation-delay on stat cards)
+- [ ] Staggered entrance animations on individual stat cards, data rows, or repeated items (animation-delay per card/row)
 - [ ] Colored dots/badges per category in activity feeds
 - [ ] Bounce or elastic easing
 - [ ] Generic stock imagery or placeholder content
@@ -650,12 +642,6 @@ When the user invokes these commands, execute the corresponding workflow:
 | `/critique` | UX-focused review: hierarchy, clarity, emotional resonance, user flow |
 | `/polish` | Auto-fix all findings from Phase 2 (smallest safe changes) |
 | `/redesign` | Full audit + aggressive fixes + re-audit to verify improvement |
-| `/simplify` | Strip unnecessary complexity: remove extra wrappers, flatten nesting, reduce color count |
-| `/animate` | Add purposeful motion: staggered reveals, hover states, scroll-triggered animations |
-| `/bolder` | Amplify timid designs: increase contrast, enlarge type, strengthen hierarchy |
-| `/quieter` | Tone down aggressive designs: reduce saturation, soften shadows, increase whitespace |
-| `/normalize` | Align with design system: replace hardcoded values with tokens |
-| `/theme` | Generate or apply a theme via DESIGN.md |
 | `/stitch` | Generate a complete DESIGN.md from the current codebase |
 | `/harden` | Add error handling, loading states, empty states, edge case handling |
 | `/a11y` | Accessibility-only audit: run axe-cli, pa11y, and Lighthouse accessibility category with JSON output parsing; check ARIA, validate contrast, test keyboard nav |
@@ -672,7 +658,6 @@ When the user invokes these commands, execute the corresponding workflow:
 | `/score` | Quantified 0-100 design quality score with category breakdown |
 | `/compete <url>` | Head-to-head design comparison against a competitor site |
 | `/evolve` | Multi-round iterative design refinement with screenshots |
-| `/mood-board` | Generate visual inspiration HTML from adjectives |
 | `/design-system-sync` | Detect and fix drift between DESIGN.md and code |
 | `/preset <name>` | Apply a curated community design preset |
 | `/preview` | Visual preview of design tokens, presets, or side-by-side direction comparison |
@@ -684,78 +669,7 @@ When the user invokes these commands, execute the corresponding workflow:
 
 ## /godmode -- The Ultimate Design Transformation
 
-`/godmode` is the nuclear option. It chains every major Picasso capability into a single end-to-end pipeline that takes a project from whatever state it's in to production-grade design quality. No shortcuts, no skipping steps.
-
-### The Pipeline (executed in order)
-
-**Phase 1: Understand**
-1. Run the **design interview** (Section 1-4) if no `.picasso.md` exists. If it exists, load it.
-2. **Gather context** -- read all frontend files, find design system, detect component library, check `.picasso.md`.
-
-**Phase 1b: Anti-Slop Gate**
-3. Run **Phase 0b (Anti-Slop Gate)** -- write out font, layout, color, differentiation commitments. This is mandatory even in godmode. No fixes until commitments are declared.
-
-**Phase 2: Assess**
-4. Run `/score` -- establish the **before score** (0-100). Save it.
-4. Run `/roast` -- get the brutally honest assessment. Show it to the user.
-5. Run `/audit` -- full technical audit (Phase 1-4) with severity-ranked findings.
-6. Run `/a11y` -- axe-core + pa11y + Lighthouse accessibility.
-7. Run `/perf` -- Lighthouse performance with Core Web Vitals.
-8. Run `/lint-design` -- find all design token violations.
-9. Run `/consistency` -- check all pages match each other.
-10. Take **before screenshots** (desktop light, desktop dark, mobile light, mobile dark).
-
-**Phase 3: Plan**
-11. Compile all findings into a prioritized fix list, grouped by impact:
-    - **Critical** (score impact: +10-20): a11y violations, anti-slop fingerprints, broken responsive
-    - **High** (score impact: +5-10): typography issues, color problems, spacing inconsistencies
-    - **Medium** (score impact: +2-5): motion improvements, interaction state gaps, performance
-    - **Low** (score impact: +1-2): polish items, micro-interactions, copy improvements
-12. Present the plan to the user: "Here are 23 issues. Fixing all of them will take your score from 42 to ~85. Shall I proceed?"
-13. **Wait for confirmation.** Never proceed without a "go."
-
-**Phase 4: Fix**
-14. Execute fixes in priority order (Critical -> High -> Medium -> Low):
-    - Typography: replace banned fonts, fix type scale, set max-width, correct line-heights
-    - Color: replace pure black/gray, tint neutrals, fix contrast ratios, apply 60-30-10
-    - Spacing: normalize to 4px scale, fix Gestalt grouping, add breathing room
-    - Layout: break uniform card grids, add spatial surprises, vary section rhythm
-    - Motion: add staggered entrance, fix transition:all, add reduced-motion support
-    - Accessibility: fix axe violations, add focus-visible, add ARIA, fix semantic HTML
-    - Interaction: add all 8 states, fix form labels, add loading/empty/error states
-    - Performance: add lazy loading, set image dimensions, optimize font loading
-    - Copy: replace generic headlines, fix button labels, improve error messages
-15. After each category, re-run the relevant checks to verify the fix worked.
-
-**Phase 5: Verify**
-16. Run `/score` again -- establish the **after score**.
-17. Take **after screenshots** (same 4 viewports).
-18. Run `/before-after` -- generate the visual comparison report.
-19. Run `/a11y` and `/perf` again to confirm improvements.
-
-**Phase 6: Report**
-20. Present the final report:
-
-```
-## GODMODE Complete
-
-Before: 42/100  →  After: 87/100  (+45 points)
-
-Typography:    6/15  →  14/15  (+8)
-Color:         5/15  →  13/15  (+8)
-Spacing:       4/10  →  9/10   (+5)
-Accessibility: 8/20  →  19/20  (+11)
-Motion:        3/10  →  8/10   (+5)
-Responsive:    6/10  →  9/10   (+3)
-Performance:   5/10  →  8/10   (+3)
-Anti-Slop:     5/10  →  7/10   (+2)
-
-Changes made: 47 files modified
-Issues fixed: 23 (8 critical, 7 high, 5 medium, 3 low)
-Time: ~12 minutes
-
-Before/after report: /tmp/picasso-before-after.html
-```
+Full pipeline: interview + assess + plan + fix + verify + report. See `commands/godmode.md` for the complete workflow.
 
 ### Godmode Rules
 
@@ -773,163 +687,25 @@ Before/after report: /tmp/picasso-before-after.html
 ## Creative Commands
 
 ### /roast -- Brutally Honest Design Critique
-
-The anti-polite review. Write feedback in sharp, designer-Twitter energy. Be specific, be funny, be cutting -- but always constructive. Every roast must end with "Here's how to fix it:" followed by actionable steps.
-
-Example tone: "This hero section looks like every v0 output from 2024. The purple gradient physically hurts my eyes. The three identical cards are a cry for help. And the 'Build the future of work' headline? My brother in Christ, it's 2026."
-
-**MANDATORY: Before writing ANY roast, you MUST:**
-1. Take desktop + mobile screenshots via `npx playwright screenshot`
-2. **View them with the Read tool** (`Read /tmp/picasso-roast-desktop.png`)
-3. Base ALL visual critiques on what you actually SEE in the screenshots
-4. Never claim "this is light/dark mode" or "this color is X" without viewing a screenshot first
-
-Rules:
-- Never be mean about the developer, only the design
-- Every criticism must be specific (file:line or element)
-- Every roast point must include the fix
-- End with a genuine compliment about what IS working
-- Output a "Roast Score" from 🔥 (barely warm) to 🔥🔥🔥🔥🔥 (absolute inferno)
-- **NEVER make visual claims from code alone** -- all visual observations must come from screenshots
+Sharp, specific, funny design critique with actionable fixes. See `commands/roast.md` for the full workflow.
 
 ### /before-after -- Visual Diff Report
-
-After any /polish or /redesign, auto-generate a comparison:
-1. Take "before" screenshots (desktop + mobile) BEFORE making changes
-2. Make the changes
-3. Take "after" screenshots
-4. Generate an HTML report at `/tmp/picasso-before-after.html` showing side-by-side comparisons with annotations
-5. List every change made with file:line references
-
-```bash
-# Before screenshots
-npx playwright screenshot http://localhost:3000 /tmp/picasso-before-desktop.png --viewport-size=1440,900
-npx playwright screenshot http://localhost:3000 /tmp/picasso-before-mobile.png --viewport-size=375,812
-
-# ... make changes ...
-
-# After screenshots
-npx playwright screenshot http://localhost:3000 /tmp/picasso-after-desktop.png --viewport-size=1440,900
-npx playwright screenshot http://localhost:3000 /tmp/picasso-after-mobile.png --viewport-size=375,812
-```
+Take before/after screenshots and generate an HTML side-by-side comparison report. See `commands/before-after.md` for the full workflow.
 
 ### /steal <url> -- Design DNA Extraction
-
-Point at any live website and extract its design DNA:
-1. Screenshot the URL at multiple viewports
-2. Analyze the screenshot visually for: fonts, color palette, spacing rhythm, border-radius, animation style, layout structure
-3. Use bash to fetch the page and extract CSS:
-```bash
-curl -s "<url>" | grep -oE 'font-family:[^;]+' | sort -u | head -10
-curl -s "<url>" | grep -oE '#[0-9a-fA-F]{3,8}' | sort | uniq -c | sort -rn | head -15
-curl -s "<url>" | grep -oE 'border-radius:[^;]+' | sort -u
-```
-4. Generate a `.picasso.md` config that matches the extracted aesthetic
-5. Optionally generate a DESIGN.md based on the extraction
+Extract design language (fonts, colors, spacing, radius) from any live website or Figma file into a `.picasso.md` config. See `commands/steal.md` for the full workflow.
 
 ### /mood <word> -- Instant Aesthetic from a Single Word
-
-Generate a complete design system from an evocative word or phrase:
-1. Parse the mood word(s): "cyberpunk", "cottage", "brutalist-banking", "warm-saas", "dark-editorial"
-2. Map to design tokens:
-   - Color palette (5-7 OKLCH values)
-   - Font pairing (display + body + mono)
-   - Border radius scale
-   - Shadow style
-   - Motion intensity
-   - Spacing density
-3. Generate a complete `.picasso.md` config
-4. Generate a `DESIGN.md` with the full token set
-5. Show a preview summary: "Mood: cyberpunk -> Neon green on near-black, JetBrains Mono headers, sharp 2px radius, high motion, dense layout"
-
-Include a mood mapping table:
-| Mood | Palette Direction | Typography | Radius | Motion |
-|---|---|---|---|---|
-| cyberpunk | neon on dark, high contrast | monospace display + geometric body | sharp (0-2px) | high, glitch effects |
-| cottage | warm earth tones, muted | serif display + rounded body | soft (12-16px) | gentle, slow fades |
-| brutalist | black/white + one accent | mono or slab | none (0px) | minimal, abrupt |
-| luxury | deep neutrals + gold/cream | thin serif display + elegant sans | subtle (4-8px) | smooth, slow |
-| editorial | high contrast, limited palette | strong serif + clean sans | minimal (2-4px) | moderate, text-focused |
-| playful | bright, saturated, varied | rounded sans + handwritten accent | large (16-24px) | bouncy, energetic |
-| corporate | conservative blue/gray | clean sans + readable body | standard (8px) | subtle, professional |
-| dark-tech | dark surfaces + accent glow | geometric sans + monospace | sharp (2-4px) | fast, precise |
-| warm-saas | warm neutrals + friendly accent | humanist sans | medium (8-12px) | moderate, smooth |
-| minimal | near-black + white + one accent | one font family, varied weights | subtle (4px) | very subtle |
+Generate a complete design system (`.picasso.md` + `DESIGN.md`) from an evocative word or phrase (e.g., "cyberpunk", "cottage", "brutalist-banking"). See `commands/mood.md` for the full workflow and mood mapping table.
 
 ### /score -- Quantified Design Quality Score
-
-Run a comprehensive scoring algorithm:
-
-1. **Typography (0-15 pts)**: font choice (not banned default: 3), type scale consistency (3), max-width on text (3), line-height correctness (3), letter-spacing on caps (3)
-2. **Color (0-15 pts)**: no pure black/gray (3), OKLCH or HSL usage (3), tinted neutrals (3), 60-30-10 rule (3), semantic colors exist (3)
-3. **Spacing (0-10 pts)**: consistent scale (5), Gestalt grouping (5)
-4. **UX Heuristics (0-20 pts)**: Nielsen's 10 heuristics, 2 pts each (see `references/ux-evaluation.md` Section 5). Covers: system status, real-world match, user control, consistency, error prevention, recognition, efficiency, minimal design, error recovery, help.
-5. **Motion (0-10 pts)**: no transition:all (3), stagger pattern (3), reduced-motion support (2), no bounce easing (2)
-6. **Responsive (0-10 pts)**: works at 375px (5), touch targets (3), no horizontal scroll (2)
-7. **Performance (0-10 pts)**: Lighthouse perf score mapped (0-100 -> 0-10)
-8. **Anti-Slop (0-10 pts)**: deductions for each AI-slop fingerprint detected (-2 each, minimum 0)
-
-Total: 0-100. Output as:
-```
-## Picasso Design Score: 73/100
-
-Typography:    ████████████░░░  12/15
-Color:         ████████████░░░  11/15
-Spacing:       ████████░░       8/10
-Accessibility: ████████████████ 16/20
-Motion:        ██████░░░░       6/10
-Responsive:    ████████░░       8/10
-Performance:   ██████░░░░       6/10
-Anti-Slop:     ██████░░░░       6/10
-
-Top issues to fix for +15 points:
-1. Add prefers-reduced-motion support (+4)
-2. Replace #000 with tinted near-black (+3)
-3. ...
-```
+0-100 score across 8 categories (Typography, Color, Spacing, UX Heuristics, Motion, Responsive, Performance, Anti-Slop) with visual bars and top fixes for max point improvement. See `commands/score.md` for the full scoring algorithm.
 
 ### /compete <url> -- Competitive Design Analysis
-
-Compare the current project against a competitor:
-1. Screenshot both sites (desktop + mobile)
-2. Extract design DNA from both
-3. Compare head-to-head across categories:
-   - Typography quality
-   - Color cohesion
-   - Spacing consistency
-   - Motion sophistication
-   - Mobile experience
-   - Performance (Lighthouse)
-   - Accessibility (axe)
-4. Output a comparison table with winner per category
-5. Generate specific recommendations: "Their typography is stronger because they use a modular type scale. Yours uses 7 different font sizes with no clear ratio."
+Head-to-head comparison against a competitor site across typography, color, spacing, motion, mobile, performance, and accessibility. See `commands/compete.md` for the full workflow.
 
 ### /evolve -- Iterative Design Refinement Loop
-
-Multi-round design refinement with visual previews at every step:
-1. **Round 1: Directions** -- Generate 3 distinct aesthetic directions. For each, generate a visual preview card using the Side-by-Side Comparison template from `references/visual-preview.md`. Write to `/tmp/picasso-evolve-round1.html`, screenshot, view, present. Ask user to pick one (or combine elements).
-2. **Round 2: Implementation** -- Implement the chosen direction in the actual codebase. Screenshot the running app. Ask "What do you love? What's not right?"
-3. **Round 3+: Refinement** -- Apply feedback. Screenshot again. Ask "Are we there? Or one more round?"
-4. Continue until user says "ship it"
-
-Rules:
-- Round 1 MUST show visual previews, not just text descriptions
-- Each direction must be genuinely different (not three variations of the same thing)
-- Always screenshot between rounds so the user can SEE the change
-- Max 5 rounds before suggesting we ship (diminishing returns)
-
-### /mood-board -- Generate Visual Inspiration
-
-When the user isn't sure what they want, generate a visual mood board:
-1. Ask for 3-5 adjectives or reference points
-2. Search `references/style-presets.md` for matching presets (2-4 best matches)
-3. Generate a comparison HTML using the Side-by-Side Direction Comparison template from `references/visual-preview.md`, showing each matched preset as a visual card with:
-   - Rendered font samples (heading + body) using actual fonts from the Font Mapping table
-   - Color palette strip with the preset's 5 key colors
-   - A sample card component and button in that preset's style
-4. Write to `/tmp/picasso-moodboard.html`
-5. Open with Playwright MCP, screenshot, view with Read (mandatory -- never skip)
-6. Present to user: "Based on your adjectives, these presets match. Which elements resonate?"
+Multi-round refinement: generate 3 directions with previews, implement user's pick, refine until "ship it." Max 5 rounds. See `commands/evolve.md` for the full workflow.
 
 ### /design-system-sync -- Auto-sync Code to DESIGN.md
 
@@ -942,63 +718,13 @@ Detect drift between DESIGN.md and actual code:
 4. Offer to auto-fix all drift with a single confirmation
 
 ### /preset <name> -- Apply Community Preset
-
-Apply a curated design preset by name.
-
-**When no preset name is given** (`/preset` with no arguments):
-1. Load `references/style-presets.md` to get all 22 presets
-2. Generate a **visual preset browser** using the Preset Browser Grid template from `references/visual-preview.md`
-   - Grid of cards (4 columns), one per preset
-   - Each card: preset name (in its heading font), color palette strip, one-line mood, sample button
-   - Card background uses the preset's surface color, text uses its text color
-3. Write to `/tmp/picasso-preset-browser.html`
-4. Open with Playwright MCP, screenshot, view with Read
-5. Present: "Here are all 22 presets. Which one catches your eye?"
-6. Wait for user to pick before proceeding
-
-**When a preset name is given** (`/preset bold-signal`):
-1. Load the named preset from `references/style-presets.md`
-2. Generate a **visual preview** of the preset (Full Page Mood Preview from `references/visual-preview.md`)
-3. Write to `/tmp/picasso-preset-{name}.html`, screenshot, view
-4. Present: "Here's what {name} looks like. Apply it?"
-5. After confirmation:
-   - Generate `.picasso.md` + `DESIGN.md` from the preset
-   - Apply to the codebase (CSS variables, Tailwind config, font imports, component styling)
+Browse all 22 presets visually (no argument) or preview and apply a specific preset by name. Generates `.picasso.md` + `DESIGN.md` from the chosen preset. See `commands/preset.md` for the full workflow.
 
 ## Advanced Automation Commands
 
 ### /perf -- Performance Audit
 
-Run Lighthouse CLI, extract Core Web Vitals (LCP, CLS, INP/TBT), report scores with pass/fail thresholds:
-
-```bash
-npx lighthouse http://localhost:3000 --only-categories=performance --output=json --output-path=/tmp/lh-perf.json --chrome-flags="--headless --no-sandbox" --quiet
-```
-
-Parse the JSON output to extract these metrics with thresholds:
-
-| Metric | Pass | Needs Work | Fail |
-|---|---|---|---|
-| Performance Score | >= 90 | 50-89 | < 50 |
-| FCP (First Contentful Paint) | < 1.8s | 1.8-3.0s | > 3.0s |
-| LCP (Largest Contentful Paint) | < 2.5s | 2.5-4.0s | > 4.0s |
-| CLS (Cumulative Layout Shift) | < 0.1 | 0.1-0.25 | > 0.25 |
-| TBT (Total Blocking Time) | < 200ms | 200-600ms | > 600ms |
-| SI (Speed Index) | < 3.4s | 3.4-5.8s | > 5.8s |
-
-```bash
-# Parse results from JSON
-node -e "
-const r = require('/tmp/lh-perf.json');
-const a = r.audits;
-console.log('Performance Score:', Math.round(r.categories.performance.score * 100));
-console.log('FCP:', a['first-contentful-paint'].displayValue);
-console.log('LCP:', a['largest-contentful-paint'].displayValue);
-console.log('CLS:', a['cumulative-layout-shift'].displayValue);
-console.log('TBT:', a['total-blocking-time'].displayValue);
-console.log('SI:', a['speed-index'].displayValue);
-"
-```
+Run Lighthouse CLI, extract Core Web Vitals (FCP, LCP, CLS, TBT, SI), report scores with pass/fail thresholds. Pass: Perf >= 90, LCP < 2.5s, CLS < 0.1, TBT < 200ms. Fail: Perf < 50, LCP > 4s, CLS > 0.25, TBT > 600ms.
 
 ### /visual-diff -- Visual Regression
 
@@ -1091,266 +817,26 @@ Report findings grouped by category with severity and suggested token replacemen
 
 ### /install-hooks -- Git Pre-commit Hook
 
-Generate a `.git/hooks/pre-commit` script that runs fast design checks (grep-based, no server needed):
-
-```bash
-cat > .git/hooks/pre-commit << 'HOOK'
-#!/usr/bin/env bash
-set -e
-
-STAGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(tsx|jsx|css|html|svelte|vue)$' || true)
-[ -z "$STAGED" ] && exit 0
-
-ERRORS=0
-
-echo "Running Picasso pre-commit checks..."
-
-# 1. transition:all detection
-if echo "$STAGED" | xargs grep -l 'transition:\s*all' 2>/dev/null; then
-  echo "ERROR: transition:all found. Specify properties explicitly."
-  ERRORS=$((ERRORS + 1))
-fi
-
-# 2. Pure black (#000) detection
-if echo "$STAGED" | xargs grep -l '#000000\|#000[^0-9a-fA-F]' 2>/dev/null; then
-  echo "ERROR: Pure black (#000) found. Use tinted near-black instead."
-  ERRORS=$((ERRORS + 1))
-fi
-
-# 3. outline:none detection (without focus-visible replacement)
-if echo "$STAGED" | xargs grep -l 'outline:\s*none\|outline:\s*0[^.]' 2>/dev/null; then
-  echo "WARNING: outline:none found. Ensure :focus-visible has a replacement."
-  ERRORS=$((ERRORS + 1))
-fi
-
-# 4. Missing alt text detection
-if echo "$STAGED" | xargs grep -l '<img' 2>/dev/null | xargs grep -L 'alt=' 2>/dev/null; then
-  echo "ERROR: <img> tags without alt attribute found."
-  ERRORS=$((ERRORS + 1))
-fi
-
-if [ "$ERRORS" -gt 0 ]; then
-  echo ""
-  echo "Picasso found $ERRORS design issue(s). Fix them before committing."
-  exit 1
-fi
-
-echo "Picasso pre-commit checks passed."
-exit 0
-HOOK
-chmod +x .git/hooks/pre-commit
-echo "Pre-commit hook installed."
-```
+Generate a pre-commit hook that checks staged frontend files for: `transition:all`, pure `#000`, `outline:none` without focus-visible, and missing img alt text.
 
 ### /ci-setup -- GitHub Actions Workflow
 
-Generate a `.github/workflows/picasso-review.yml` that runs on PRs touching frontend files:
-
-```yaml
-name: Picasso Design Review
-
-on:
-  pull_request:
-    paths:
-      - '**/*.tsx'
-      - '**/*.jsx'
-      - '**/*.css'
-      - '**/*.html'
-      - '**/*.svelte'
-      - '**/*.vue'
-
-jobs:
-  picasso-review:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - run: npm ci
-
-      - name: Start dev server
-        run: npm run dev &
-        env:
-          PORT: 3000
-
-      - name: Wait for server
-        run: npx wait-on http://localhost:3000 --timeout 60000
-
-      - name: Accessibility audit (axe-cli)
-        run: npx axe-cli http://localhost:3000 --exit --save /tmp/axe-results.json || true
-
-      - name: Accessibility audit (pa11y)
-        run: npx pa11y http://localhost:3000 --reporter json > /tmp/pa11y-results.json || true
-
-      - name: Lighthouse accessibility
-        run: |
-          npx lighthouse http://localhost:3000 --only-categories=accessibility --output=json --output-path=/tmp/lh-a11y.json --chrome-flags="--headless --no-sandbox" --quiet || true
-
-      - name: Lighthouse performance
-        run: |
-          npx lighthouse http://localhost:3000 --only-categories=performance --output=json --output-path=/tmp/lh-perf.json --chrome-flags="--headless --no-sandbox" --quiet || true
-
-      - name: Take screenshots
-        run: |
-          npx playwright install chromium --with-deps
-          npx playwright screenshot http://localhost:3000 /tmp/picasso-desktop.png --viewport-size=1440,900
-          npx playwright screenshot http://localhost:3000 /tmp/picasso-mobile.png --viewport-size=375,812
-
-      - name: Parse scores
-        id: scores
-        run: |
-          PERF=$(node -e "const r=require('/tmp/lh-perf.json');console.log(Math.round(r.categories.performance.score*100))" 2>/dev/null || echo "N/A")
-          A11Y=$(node -e "const r=require('/tmp/lh-a11y.json');console.log(Math.round(r.categories.accessibility.score*100))" 2>/dev/null || echo "N/A")
-          echo "perf=$PERF" >> $GITHUB_OUTPUT
-          echo "a11y=$A11Y" >> $GITHUB_OUTPUT
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: picasso-results
-          path: /tmp/picasso-*.png
-
-      - name: Post PR comment
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const perf = '${{ steps.scores.outputs.perf }}';
-            const a11y = '${{ steps.scores.outputs.a11y }}';
-            const body = `## Picasso Design Review\n\n| Metric | Score |\n|---|---|\n| Performance | ${perf}/100 |\n| Accessibility | ${a11y}/100 |\n\nScreenshots uploaded as workflow artifacts.`;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body
-            });
-```
+Generate a GitHub Actions workflow that runs on frontend file PRs: install deps, start dev server, run axe-cli + pa11y + Lighthouse a11y/perf, take screenshots, post PR comment with scores.
 
 ### /a11y -- Accessibility Audit (Enhanced)
 
-Run all three accessibility tools with JSON output parsing:
-
-```bash
-# 1. axe-cli -- WCAG 2.1 AA violations
-npx axe-cli http://localhost:3000 --exit --save /tmp/axe-results.json 2>/dev/null
-node -e "
-const r = require('/tmp/axe-results.json');
-const v = r[0]?.violations || [];
-console.log('axe-cli: ' + v.length + ' violations');
-v.forEach(v => console.log('  [' + v.impact + '] ' + v.id + ': ' + v.description + ' (' + v.nodes.length + ' nodes)'));
-"
-
-# 2. pa11y -- HTML_CodeSniffer + WCAG 2.1 AA
-npx pa11y http://localhost:3000 --reporter json > /tmp/pa11y-results.json 2>/dev/null
-node -e "
-const r = require('/tmp/pa11y-results.json');
-console.log('pa11y: ' + r.length + ' issues');
-r.forEach(i => console.log('  [' + i.type + '] ' + i.code + ': ' + i.message));
-"
-
-# 3. Lighthouse accessibility category
-npx lighthouse http://localhost:3000 --only-categories=accessibility --output=json --output-path=/tmp/lh-a11y.json --chrome-flags="--headless --no-sandbox" --quiet
-node -e "
-const r = require('/tmp/lh-a11y.json');
-const score = Math.round(r.categories.accessibility.score * 100);
-console.log('Lighthouse a11y score: ' + score + '/100');
-const failed = Object.values(r.audits).filter(a => a.score === 0);
-failed.forEach(a => console.log('  FAIL: ' + a.id + ' - ' + a.title));
-"
-```
-
-Combine results from all three tools, deduplicate overlapping findings, and report with severity levels.
+Run axe-cli, pa11y, and Lighthouse accessibility category with JSON output parsing. Combine results from all three tools, deduplicate overlapping findings, and report with severity levels.
 
 ### /quick-audit -- 5-Minute Fast Audit
-
-When time is short or you need a triage before committing to a full audit. Takes 5 minutes, not 30.
-
-Check exactly these 6 things and report pass/fail for each:
-
-1. **Font** -- Is it a banned default (Inter, Roboto, Arial, system-ui)? → FAIL/PASS
-2. **Color** -- Are neutrals pure gray (#808080, #ccc) or tinted? → FAIL/PASS
-3. **Layout** -- Is everything centered on one axis with no spatial variation? → FAIL/PASS
-4. **Spacing** -- Is spacing uniform everywhere or does it follow gestalt grouping? → FAIL/PASS
-5. **Accessibility** -- Does `outline: none` exist without `:focus-visible` replacement? → FAIL/PASS
-6. **Anti-Slop** -- Do 3+ AI-slop fingerprints appear simultaneously? → FAIL/PASS
-
-Output format:
-```
-## Quick Audit: [project name]
-
-Font:          PASS ✓  (Cabinet Grotesk + DM Sans)
-Color:         FAIL ✗  (pure #808080 in 4 places)
-Layout:        PASS ✓  (asymmetric grid with primary card dominant)
-Spacing:       FAIL ✗  (uniform 32px between all sections)
-Accessibility: PASS ✓  (focus-visible defined globally)
-Anti-Slop:     FAIL ✗  (4 fingerprints: centered layout + uniform cards + indigo accent + same spacing)
-
-Result: 3/6 — Needs work. Start with color and spacing.
-```
+6 binary checks (font, color, layout, spacing, a11y, anti-slop) with pass/fail for each. See `commands/quick-audit.md` for the full workflow.
 
 ### /autorefine -- Binary Evaluation Loop
-
-Iterative improvement using binary (pass/fail) criteria. Inspired by SkillForge's autoresearch pattern that improved one skill from 56% to 92%.
-
-### How It Works
-
-1. **Define 6 binary criteria** (exactly 6 -- fewer is insufficient signal, more is over-optimization):
-   ```
-   1. Typography: Non-default font used? (yes/no)
-   2. Color: OKLCH or tinted neutrals? (yes/no)
-   3. Spacing: Follows 4px scale with gestalt grouping? (yes/no)
-   4. Anti-slop: Fewer than 3 slop fingerprints? (yes/no)
-   5. Motion: prefers-reduced-motion respected? (yes/no)
-   6. Accessibility: No axe-core critical violations? (yes/no)
-   ```
-
-2. **Run baseline evaluation** -- check all 6 criteria against current state. Report pass rate (e.g., 3/6 = 50%).
-
-3. **Mutate one thing at a time.** Pick the highest-impact failing criterion. Make the smallest change that flips it from FAIL to PASS. Do NOT change multiple things simultaneously -- you need to know what worked.
-
-4. **Re-evaluate all 6 criteria** after each mutation. Sometimes fixing one thing breaks another.
-
-5. **Iterate until 6/6 pass** across 3 consecutive evaluations. If a criterion keeps flipping between PASS and FAIL, the fix is unstable -- investigate root cause.
-
-6. **Stop after 8 mutations maximum.** If you haven't hit 95% by then, the remaining issues are structural and need a `/redesign`, not incremental fixes.
-
-### Output format per iteration:
-```
-## Autorefine: Iteration 3
-
-Mutation: Replaced pure grays with blue-tinted OKLCH neutrals in globals.css
-
-  Typography:    PASS ✓
-  Color:         PASS ✓  ← flipped from FAIL
-  Spacing:       PASS ✓
-  Anti-slop:     PASS ✓
-  Motion:        FAIL ✗
-  Accessibility: PASS ✓
-
-Pass rate: 5/6 (83%) — up from 67%
-Next: Add prefers-reduced-motion guard to animations
-```
+Define 6 binary criteria, mutate one thing at a time, iterate to 6/6 pass. Max 8 mutations. See `commands/autorefine.md` for the full workflow.
 
 ---
 
 ## The Studio Standard
-
-Picasso is not a linter. It is not a checklist runner. It is a design studio that produces work indistinguishable from a senior human designer. Every invocation should feel like working with a creative director who:
-
-1. **Analyzes before prescribing.** Read the codebase, understand the product, study the competitors, THEN make recommendations. Never present a generic capability menu -- two projects should get different recommendations because they ARE different. The right answer for a legal SaaS is not the same as for a music app.
-
-2. **Delivers a creative vision** before writing code. A Design Brief that is specific to THIS project -- if you could swap the project name and the brief still works, it's too generic.
-
-3. **Actually implements what was promised.** If the brief says "soft click sound on primary buttons" -- the final output must include: the useSound hook from sensory-design.md, the audio source (Tone.js synthesis or base64), the event wiring in the button component, and the prefers-reduced-motion guard. Not "I recommend adding sounds" -- the actual working code.
-
-4. **Uses the reference library.** The 30+ reference files contain battle-tested, production-ready code patterns. When you recommend something, read the relevant reference and use its code. Do not reinvent. Do not hallucinate simpler versions.
-
-5. **Verifies with screenshots.** Every visual claim is backed by an actual screenshot that was taken AND viewed. No exceptions.
-
-6. **Knows when to say no.** Not every project needs animations. Not every project needs sound. Not every project needs haptics. The mark of a great designer is knowing what to leave out. If you recommend something, you must be able to articulate why THIS project benefits from it specifically -- not "it's a best practice" or "it improves perceived quality." WHY for THIS product, THESE users, THIS context.
+Analyze the specific project before recommending anything. Deliver what was promised. Verify everything with screenshots. Know when to say no.
 
 ---
 
@@ -1372,7 +858,7 @@ Picasso is not a linter. It is not a checklist runner. It is a design studio tha
 14. **NEVER pair a dark sidebar with a gradient CTA button.**
 15. **NEVER put icons inside colored circle/rounded-square containers** (the `bg-color-100 p-2 rounded-lg` pattern).
 16. **NEVER add hover:-translate-y + shadow-lg to cards.** Use subtle background color change only.
-17. **NEVER add staggered entrance animations to static data** (animation-delay on stat cards).
+17. **NEVER add staggered entrance animations on individual stat cards, data rows, or repeated items** (animation-delay per card/row). Page-level section stagger (hero -> content -> footer) is fine.
 18. **Prefer subtraction over addition.** The best redesign often removes visual noise rather than adding decoration.
 19. **Study real competitors first.** Before any redesign, identify what actual products in the same industry look like. Match their energy, not a generic SaaS template.
 20. **The restraint test:** Before writing any visual change, ask "Would Linear/Notion/Stripe do this?" If the answer is no, don't do it.
