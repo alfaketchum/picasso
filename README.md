@@ -12,7 +12,7 @@
 <p align="center">
   <a href="#install">Install</a> &bull;
   <a href="#what-makes-picasso-different">Why Picasso</a> &bull;
-  <a href="#the-design-interview">Interview</a> &bull;
+  <a href="#visual-discovery-not-a-questionnaire">Visual Discovery</a> &bull;
   <a href="#creative-commands">Creative Commands</a> &bull;
   <a href="#benchmark">Benchmarks</a> &bull;
   <a href="#commands">All Commands</a> &bull;
@@ -104,18 +104,18 @@ Picasso doesn't just describe tools -- it specifies exactly how to use them with
 
 ## Visual Discovery (Not a Questionnaire)
 
-Most users can't articulate what they want but can instantly react to what they see. So Picasso shows, not asks.
+Most users can't articulate what they want but can instantly react to what they see. So Picasso shows, not asks. The gallery generation is **non-negotiable** -- it cannot be collapsed into questions, text descriptions, or verbal mood boards.
 
 ```
-1. CRAWL    Picasso silently reads your codebase, identifies the product
-            type, studies 2-3 real competitors in your space.
+1. CRAWL    Picasso agent silently reads your codebase, identifies the
+            product type, studies 2-3 real competitors in your space.
 
 2. ASK      2-3 quick questions max: "What's the primary user action?"
             "Any brand colors to keep?" "Site you love the look of?"
 
-3. SHOW     Generates 6-10 fast visual sample pages, each a different
+3. SHOW     Generates 6-10 fast HTML sample pages, each a different
             design direction applied to YOUR app's actual structure.
-            Opens a gallery for you to browse.
+            Screenshots each one. Opens a gallery for you to browse.
 
 4. REACT    You: "Like 3 and 7. Hate the dark ones. 7 is close but
             the font is too playful."
@@ -123,9 +123,11 @@ Most users can't articulate what they want but can instantly react to what they 
 5. NARROW   Generates 3-5 refined samples based on your reactions.
             Each one more polished than round 1.
 
-6. CONFIRM  You pick a direction. Picasso generates .picasso.md and
-            begins implementation with your real content.
+6. CONFIRM  You pick a direction. Agent generates .picasso.md and
+            hands off to the skill for implementation.
 ```
+
+This process runs automatically when there's no `.picasso.md` in your project. Once you've confirmed a direction, `.picasso.md` stores your tokens and future invocations skip straight to execution. Run `/picasso` to redo discovery at any time.
 
 You never have to go look at design sites for inspiration. Picasso brings it to you. Your reactions reveal more preferences than any questionnaire.
 
@@ -249,7 +251,7 @@ Fix this and you pull ahead significantly.
 
 ### `/before-after` -- Visual Transformation Report
 
-After any `/polish` or `/redesign`, auto-generates side-by-side screenshots showing exactly what changed and why. Shareable HTML report.
+After any design changes, auto-generates side-by-side screenshots showing exactly what changed and why. Shareable HTML report.
 
 ### `/preset <name>` -- One-Command Aesthetic
 
@@ -286,8 +288,8 @@ We compared Picasso against every publicly available AI design skill as of April
 | **Design system generation** | **9-section (Stitch)** | None | None | None | None |
 | **Sound/haptics** | **soundcn + web-haptics** | None | None | None | None |
 | **Scoring system** | **0-100 quantified** | None | /20 + /40 | None | None |
-| **Design interview** | **4-section onboarding** | None | None | None | None |
-| **Creative commands** | **8 (/roast, /steal, /evolve, /mood, /compete, /variants, /preset, /before-after)** | None | None | None | None |
+| **Visual discovery** | **6-10 HTML gallery + reaction loop** | None | None | None | None |
+| **Creative commands** | **15 (/roast, /score, /godmode, /steal, /evolve, /mood, /compete, /variants, /preset, /before-after, /figma, /preview, /backlog, /quick-audit, /autorefine)** | None | None | None | None |
 | **Tool integrations** | **7 libraries** | 0 | 0 | 0 | 0 |
 | **Sources consolidated** | **15+ repos** | 1 | 1 | 1 | 0-1 |
 
@@ -376,21 +378,39 @@ Upload `SKILL.md` as a Custom Skill in Claude.ai settings. Upload reference file
 
 ---
 
-## Skill + Agent
+## Skill + Agent: A Unified Pipeline
 
-Picasso ships as both a **skill** (knowledge base) and an **agent** (autonomous design engineer).
+Picasso ships as both a **skill** (design knowledge + execution framework) and an **agent** (autonomous discovery + validation). They are NOT alternatives -- they are sequential phases of the same pipeline.
 
-| | Skill | Agent |
+```
+User asks for design work
+  -> Skill loads, checks for .picasso.md
+  -> No .picasso.md? BLOCK. Spawn Picasso agent.
+  -> Agent crawls codebase silently
+  -> Agent asks 2-3 questions max
+  -> Agent generates 6-10 HTML sample pages to /tmp/picasso-gallery/
+  -> Agent screenshots gallery, presents to user
+  -> User reacts (like/hate/adjust)
+  -> Agent narrows to 3-5 refined samples
+  -> User picks direction
+  -> Agent generates .picasso.md
+  -> Control returns to skill for execution
+  -> Skill runs anti-slop gate, references, design thinking, code
+  -> Agent re-spawned for post-execution screenshot validation
+```
+
+| | Skill (Execution) | Agent (Discovery + Validation) |
 |---|---|---|
-| **What it is** | 32 reference files of design intelligence | Autonomous design auditor with anti-slop gate |
-| **How it works** | Loaded into context when designing | Runs as a sub-process with its own tools |
-| **When it runs** | When you ask for design help | On explicit commands (/audit, /roast, /godmode, etc.) |
-| **Can audit code** | Only when asked | Yes, with structured scoring |
-| **Can run axe-core** | No | Yes (via CLI) |
-| **Can screenshot pages** | No | Yes (via `npx playwright screenshot`) |
+| **What it is** | 33 reference files + anti-slop gate + implementation standards | Autonomous design engineer with visual discovery |
+| **How it works** | Loaded into context for design execution | Runs as a sub-process with its own dedicated context |
+| **When it runs** | After `.picasso.md` exists, for all design code work | First invocation (no `.picasso.md`), slash commands, validation |
+| **Owns** | References, anti-slop gate, design thinking, code standards | Visual discovery gallery, screenshots, direction confirmation |
+| **Can screenshot** | No | Yes (via `npx playwright screenshot`) |
+| **Can generate gallery** | No | Yes (6-10 HTML sample pages) |
 | **Can auto-fix issues** | No | Yes (with pre-flight git/test checks) |
-| **Can enforce design system** | No | Yes (greps for token violations) |
-| **Enforces anti-slop gate** | Via SKILL.md instructions | Yes, mandatory before any code generation |
+| **Enforces anti-slop gate** | Yes, before any code | Yes, mandatory before any generation |
+
+**Neither works alone on design-level tasks.** Discovery (agent) then execution (skill) then validation (agent).
 
 ---
 
@@ -441,24 +461,16 @@ GODMODE Complete: 42 → 87 (+45 points), 47 files modified, 23 issues fixed
 
 ### Agent Behaviors (Internal)
 
-These are defined in the Picasso agent and run as part of pipelines (e.g., `/godmode` calls several of these internally). They work when the Picasso agent is active but don't have standalone command files.
+These are capabilities defined in the Picasso agent that run as part of pipelines (e.g., `/godmode` calls several internally). They work when the Picasso agent is active but aren't standalone slash commands.
 
 | Behavior | What It Does |
 |---|---|
-| `/picasso` | Run the visual discovery process, generates `.picasso.md` |
-| `/audit` | Full technical audit across typography, color, spacing, UX heuristics, motion, responsive |
-| `/polish` | Auto-fix all audit findings with smallest safe changes |
-| `/redesign` | Full audit + aggressive fixes + re-audit to verify improvement |
-| `/harden` | Add error handling, loading states, empty states, edge case handling |
-| `/stitch` | Generate a complete DESIGN.md from the current codebase |
-| `/a11y` | Full accessibility audit: axe-core + pa11y + Lighthouse with JSON parsing |
-| `/perf` | Lighthouse performance audit with Core Web Vitals pass/fail thresholds |
-| `/visual-diff` | Screenshot desktop + mobile in light/dark mode, analyze visually |
-| `/consistency` | Multi-page consistency check across all routes |
-| `/lint-design` | Find hardcoded colors, spacing violations, font inconsistencies |
-| `/design-system-sync` | Detect and fix drift between DESIGN.md and code |
-| `/install-hooks` | Generate git pre-commit hook for automated design checks |
-| `/ci-setup` | Generate GitHub Actions workflow for PR design review with scores |
+| Visual Discovery | Crawl codebase, generate HTML gallery, collect reactions, confirm direction, write `.picasso.md` |
+| Design Audit | Full technical audit across typography, color, spacing, UX heuristics, motion, responsive |
+| Auto-Fix | Fix audit findings with smallest safe changes, re-audit to verify |
+| Screenshot Validation | Take and view screenshots between every major edit to verify output |
+| Anti-Slop Gate | Mandatory pre-code checklist: font, color, layout, differentiation commitments |
+| Competitor Research | Study 2-3 real competitors in the same domain before any redesign |
 
 ---
 
